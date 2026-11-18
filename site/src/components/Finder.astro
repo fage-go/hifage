@@ -1,0 +1,21 @@
+<dialog id="resource-modal" class="finder" aria-labelledby="finder-title">
+ <div class="finder-workspace">
+  <section id="finder-main-window" class="finder-main" aria-labelledby="finder-title">
+   <div class="finder-toolbar">
+    <button class="finder-close" type="button" aria-label="关闭资源窗口"><span aria-hidden="true">×</span></button>
+    <div class="finder-window-name"><span aria-hidden="true">▱</span><h2 id="finder-title">发哥的桌面</h2></div>
+    <span class="finder-view-label" aria-hidden="true">图标视图</span>
+   </div>
+   <nav class="finder-path" aria-label="当前位置"><span>发哥的桌面</span><span aria-hidden="true">/</span><span id="finder-path-section"></span><span id="finder-path-item" hidden></span></nav>
+   <div class="finder-body">
+    <nav class="finder-sidebar" aria-label="资源分类"><p>收藏夹</p><div id="finder-categories"></div></nav>
+    <section class="finder-list" aria-labelledby="finder-section-title"><div class="finder-section-heading"><h3 id="finder-section-title"></h3><p id="finder-section-description"></p></div><ul id="finder-items" class="finder-items"></ul><div id="finder-empty" class="finder-empty" hidden></div></section>
+   </div>
+   <div class="finder-status"><span id="finder-count" aria-live="polite"></span><span id="finder-selection-status"></span></div>
+  </section>
+  <section id="finder-detail-window" class="finder-detail-window" aria-labelledby="finder-detail-title" hidden>
+   <div class="finder-detail-toolbar"><h3 id="finder-detail-title" tabindex="-1">项目详情</h3><button id="finder-back" class="finder-detail-close" type="button" disabled aria-label="关闭提示，返回条目">×</button></div>
+   <div id="finder-detail" class="finder-detail"></div>
+  </section>
+ </div>
+</dialog>

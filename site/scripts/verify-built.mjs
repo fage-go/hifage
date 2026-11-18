@@ -20,5 +20,7 @@ for(const [name,html]of [['index.html',home],['skills/index.html',skills],['proj
  }
 }
 assert(project.includes('通知了 / MagicNotice'));assert(project.includes('源码公开 · 非商业许可'));assert(project.includes('https://github.com/fage-go/magicnotice/releases'));assert(!project.includes('.apk'));
+for(const id of ['finder-title','finder-back','finder-categories','finder-items','finder-detail'])assert(home.includes('id="'+id+'"'));
+const finder=readFileSync(root+'finder-data.js','utf8');assert(finder.includes('https://github.com/fage-go/magicnotice/releases'));assert(!finder.includes('releases/latest'));for(const m of finder.matchAll(/(?:icon|qr):'\.\/([^']+)'/g))assert(existsSync(root+m[1]),m[1]);
 const content=readFileSync(root+'content.js','utf8');assert.equal((content.match(/image:/g)||[]).length,5);
 console.log('PASS generated home, Skills empty state, local URLs, 5 poses, exact original QR; base='+base);

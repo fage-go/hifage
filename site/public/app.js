@@ -1,9 +1,10 @@
-import {deskItems, gameLink, reactions, deskReactions} from './content.js';
+import {reactions, deskReactions} from './content.js';
 import {initCharacter} from './character.js';
 import {initDesk} from './desk.js';
+import {finderSections} from './finder-data.js';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const character=initCharacter(reactions, deskReactions, reduced);
-initDesk(deskItems, gameLink, reduced, character.reactToDesk);
+initDesk(finderSections, reduced, character.reactToDesk);
 function updateDate(){
  const date=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  const el=document.getElementById('today');el.dateTime=date;el.textContent=date.replaceAll('-',' / ');
