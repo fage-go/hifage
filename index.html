@@ -50,6 +50,12 @@ body{min-height:100svh;display:flex;flex-direction:column}header,main,footer{wid
 @media(max-width:360px){.hero{--figure-height:210px}.actor>.speech{left:-16px;max-width:calc(100% + 14px)}.hero-wechat strong{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.person{animation:none!important;transform:translateY(1.230769%)!important}.person .avatar.pop{animation:none!important}}
 .actor>.speech{top:auto;bottom:calc(var(--figure-height) - 25px)}
+
+/* V8: add 50px to the preferred bubble cap; retain small-screen safe bounds. */
+.actor>.speech{max-width:min(270px,calc(100% + 12px))}
+@media(max-width:1100px) and (min-width:701px){.actor>.speech{max-width:min(250px,calc(100% + 14px))}}
+@media(max-width:700px){.actor>.speech{max-width:min(270px,calc(100% + 20px))}}
+@media(max-width:360px){.actor>.speech{max-width:min(270px,calc(100% + 14px))}}
 </style>
 <header><a href="#" class="brand">Hi<b>Fage</b></a><nav><a href="#about">关于我</a><a href="#desk">逛桌面</a></nav></header>
 <main><div class="scene">
