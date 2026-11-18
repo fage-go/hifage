@@ -1,0 +1,48 @@
+[
+  {
+    "id": "pixel-character-master",
+    "bytes": 3856,
+    "sha256": "c127a19c1a97ba04e9405e5fccaaa7cbf8b3bd305b6b846f972aa0715221012e",
+    "entries": [
+      "pixel-character-master/SKILL.md",
+      "pixel-character-master/agents/openai.yaml",
+      "pixel-character-master/references/art.md"
+    ]
+  },
+  {
+    "id": "pixel-character-rig-align",
+    "bytes": 10568,
+    "sha256": "0174f1ff57e123f758cf0f8ff662f21d84bc7b431868b1c4849f2c2ed8fa591b",
+    "entries": [
+      "pixel-character-rig-align/SKILL.md",
+      "pixel-character-rig-align/agents/openai.yaml",
+      "pixel-character-rig-align/references/binding.md",
+      "pixel-character-rig-align/references/deformation-diagnosis.md",
+      "pixel-character-rig-align/scripts/check-mix-identity.mjs",
+      "pixel-character-rig-align/scripts/compare_stages.py"
+    ]
+  },
+  {
+    "id": "pixel-character-spritesheet",
+    "bytes": 3588,
+    "sha256": "808325ae0008d8c235fe9d908ec7bb47a64204b3db0a41ece6a6fe7119f00289",
+    "entries": [
+      "pixel-character-spritesheet/SKILL.md",
+      "pixel-character-spritesheet/agents/openai.yaml",
+      "pixel-character-spritesheet/references/motion.md"
+    ]
+  },
+  {
+    "id": "pixel-character-workflow",
+    "bytes": 7722,
+    "sha256": "e8c3e311bfae873fb4d2cd403d127af63bbc0ed53d16161d292469b1cf928e4f",
+    "entries": [
+      "pixel-character-workflow/SKILL.md",
+      "pixel-character-workflow/agents/openai.yaml",
+      "pixel-character-workflow/references/acceptance.md",
+      "pixel-character-workflow/references/motion-and-rig.md",
+      "pixel-character-workflow/references/pixel-spec-and-prompts.md",
+      "pixel-character-workflow/references/sources.md"
+    ]
+  }
+]

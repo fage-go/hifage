@@ -1,7 +1,8 @@
+import {pixelSkills,skillDownload} from './skill-catalog.js';
 // Only real destinations: no fabricated articles, packages, or specific APK versions.
 const wechat = {icon:'./apple-touch-icon.png',title:'发哥聊一聊AI',badge:'微信公众号',qr:'./assets/wechat-qr.jpg',actions:[]};
 export const finderSections = [
- {id:'skills',name:'Skill 盒',symbol:'✦',description:'把可复用的方法整理好，再交到你手上。',empty:'第一批 Skill 正在整理，目前还没有公开下载包。',emptyLink:{href:'./skills/',label:'查看 Skill 盒页面'},items:[]},
+ {id:'skills',name:'Skill 盒',symbol:'✦',description:'四个独立像素角色技能包，按你的制作阶段选用。',empty:'第一批 Skill 正在整理，目前还没有公开下载包。',emptyLink:{href:'./skills/',label:'查看 Skill 盒页面'},items:pixelSkills.map(skill=>({id:skill.id,title:skill.title,kind:'像素角色 · Skill',icon:'./assets/skill.webp',badge:'独立 ZIP · 技能包',brief:skill.description,shortNote:'下载后先阅读包内说明，保留完整目录再导入支持该技能格式的工具。',actions:[{href:skillDownload(skill.id),label:'下载 ZIP',download:skill.id+'.zip'},{href:'./skills/'+skill.id+'/',label:'安装与用法'}]}))},
  {id:'news',name:'AI 资讯',symbol:'▤',description:'新变化与发哥的观察，目前在公众号分享。',items:[{...wechat,id:'wechat-news',brief:'AI 新变化与发哥的观察，在公众号里继续聊。微信搜索「发哥聊一聊AI」。',kind:'公众号 · AI 资讯',description:'不只记住发布了什么，也聊聊它会怎样影响我们实际做事。这里是公众号入口，不是文章清单。',note:'微信搜索「发哥聊一聊AI」，或用微信识别下方二维码。'}]},
  {id:'notes',name:'教程笔记',symbol:'▥',description:'开发记录、方法与复盘，目前在公众号阅读。',items:[{...wechat,id:'wechat-notes',brief:'开发记录、教程与复盘，先在公众号阅读。微信搜索「发哥聊一聊AI」。',kind:'公众号 · 教程与实践',description:'从遇到了什么，到怎么解决，再到哪些边界还没验证。站内教程索引仍在整理，这里先保留真实的公众号入口。',note:'微信搜索「发哥聊一聊AI」，或用微信识别下方二维码。'}]},
  {id:'games',name:'游戏体验',symbol:'＋',description:'先玩到结果，再回头看看它是怎么做出来的。',items:[{id:'pixel-legend',brief:'打开银杏村，亲手体验正在生长的像素游戏。',title:'银杏村 · 像素传奇',kind:'在线游戏',icon:'./assets/game.webp',badge:'浏览器体验',description:'一个可以亲手体验的像素游戏。打开现有游戏站点，看看正在生长的银杏村。',note:'将在新标签页打开游戏，本站不会下载或安装程序。',actions:[{href:'https://cq.hifage.com/',label:'进入银杏村',external:true}]}]},

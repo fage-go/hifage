@@ -1,3 +1,4 @@
+import {pixelSkills,skillDownload} from '../public/skill-catalog.js';
 import {readFileSync,existsSync,readdirSync,statSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -6,7 +7,7 @@ const root=fileURLToPath(new URL('../dist/',import.meta.url));
 const home=readFileSync(root+'index.html','utf8'),skills=readFileSync(root+'skills/index.html','utf8');
 assert(home.includes('嗨，我是发哥。'));assert(home.includes('微信搜索 「发哥聊一聊AI」'));
 assert.equal((home.match(/data-note=/g)||[]).length,5);assert(home.includes('resource-modal'));
-assert(skills.includes('第一批资源正在整理'));
+assert(!skills.includes('第一批资源正在整理'));for(const item of pixelSkills)assert(skills.includes(item.title));
 assert.equal(createHash('sha256').update(readFileSync(root+'assets/wechat-qr.jpg')).digest('hex'),'aab99f7dc94bcf1bd866159d4bd6cd4e4fd4278cfe35a45636206c8c6aae83e7');
 const project=readFileSync(root+'projects/magicnotice/index.html','utf8');
 const base=(process.env.SITE_BASE||'/').replace(/\/$/,'')+'/';
@@ -22,5 +23,6 @@ for(const [name,html]of [['index.html',home],['skills/index.html',skills],['proj
 assert(project.includes('通知了 / MagicNotice'));assert(project.includes('源码公开 · 非商业许可'));assert(project.includes('https://github.com/fage-go/magicnotice/releases'));assert(!project.includes('.apk'));
 for(const id of ['finder-title','finder-back','finder-categories','finder-items','finder-detail'])assert(home.includes('id="'+id+'"'));
 const finder=readFileSync(root+'finder-data.js','utf8');assert(finder.includes('https://github.com/fage-go/magicnotice/releases'));assert(!finder.includes('releases/latest'));for(const m of finder.matchAll(/(?:icon|qr):'\.\/([^']+)'/g))assert(existsSync(root+m[1]),m[1]);
+for(const item of pixelSkills){const file=skillDownload(item.id,base);assert(skills.includes(file));const page=readFileSync(root+'skills/'+item.id+'/index.html','utf8');assert(page.includes(item.title));assert(page.includes(file));assert(page.includes('SKILL.md'));assert(page.includes('CODEX_HOME'));const bytes=readFileSync(root+'downloads/skills/'+item.id+'.zip');assert.equal(bytes.readUInt32LE(0),0x04034b50);}
 const content=readFileSync(root+'content.js','utf8');assert.equal((content.match(/image:/g)||[]).length,5);
-console.log('PASS generated home, Skills empty state, local URLs, 5 poses, exact original QR; base='+base);
+console.log('PASS generated home, four Skills, direct ZIPs and guidance, local URLs, 5 poses, exact original QR; base='+base);

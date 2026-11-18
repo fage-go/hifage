@@ -11,7 +11,7 @@ export function initDesk(sections,reduced,reactToDesk){
  let current=0,selected=null,lastFocus=null,itemButtons=[];
  const text=(id,value)=>{document.getElementById(id).textContent=value;};
  function el(tag,content,className){const node=document.createElement(tag);if(content!==undefined)node.textContent=content;if(className)node.className=className;return node;}
- function makeLink(action){const link=el('a',action.label,'finder-action');link.href=action.href;if(action.external){link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',action.label+'（新标签页）');}return link;}
+ function makeLink(action){const link=el('a',action.label,'finder-action');link.href=action.href;if(action.download)link.download=action.download;if(action.external){link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',action.label+'（新标签页）');}return link;}
  function showList(restoreFocus=false){
   const previous=selected;selected=null;modal.classList.remove('is-detail');detailWindow.hidden=true;back.disabled=true;
   document.getElementById('finder-path-item').hidden=true;text('finder-selection-status','');itemButtons.forEach(b=>b.setAttribute('aria-pressed','false'));

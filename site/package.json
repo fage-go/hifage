@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "test:built": "node scripts/verify-built.mjs && node scripts/test-interactions.cjs"
+    "test:built": "node scripts/verify-built.mjs && node scripts/test-interactions.cjs",
+    "prebuild": "node scripts/verify-skill-archives.mjs"
   },
   "dependencies": {
     "astro": "7.4.12"
