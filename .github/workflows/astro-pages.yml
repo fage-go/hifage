@@ -1,4 +1,4 @@
-name: Build Astro (manual Pages cutover)
+name: Deploy HiFage to GitHub Pages
 on:
   push:
     branches: [main]
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       deploy:
-        description: 'Deploy only AFTER Settings > Pages is switched to GitHub Actions'
+        description: 'Deploy to GitHub Pages from main'
         type: boolean
         default: false
 permissions:
@@ -30,8 +30,8 @@ jobs:
           node-version: '24'
           cache: npm
           cache-dependency-path: site/package-lock.json
-      - name: Read Pages settings for intentional cutover only
-        if: github.event_name == 'workflow_dispatch' && inputs.deploy
+      - name: Read GitHub Pages settings
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy))
         id: pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - run: npm ci
@@ -47,7 +47,7 @@ jobs:
         with:
           path: site/dist
   deploy:
-    if: github.event_name == 'workflow_dispatch' && inputs.deploy
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy))
     needs: build
     runs-on: ubuntu-latest
     permissions:
