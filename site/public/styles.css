@@ -71,3 +71,17 @@ body{min-height:100svh;display:flex;flex-direction:column}header,main,footer{wid
 dialog[open] .modal-content{animation:detailEntry .2s ease-out both}
 @keyframes detailEntry{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.desk-item.opening .object-stage:after{display:none}.desk-item.opening .object-image,dialog[open] .modal-content{animation:none!important}}
+
+/* Small hidden drawer: native dialog semantics, no new homepage controls. */
+.character-drawer{width:min(500px,calc(100% - 32px));padding:19px;border:2px solid #a48962;border-bottom:11px solid #b49468;border-radius:10px;background:#d3b68b;box-shadow:0 25px 90px #20180f66,inset 0 2px 4px #80613a44;overflow:auto}
+.character-drawer[open]{animation:drawerPull .25s cubic-bezier(.2,.8,.25,1) both}
+.drawer-interior{padding:28px 21px 23px;border:1px solid #b99a70;border-radius:4px;background:#f5e8cf;box-shadow:inset 0 4px 12px #7b5b2920}.drawer-close{position:absolute;right:10px;top:7px;z-index:1;width:44px;height:44px;font-size:27px;border:0;background:none;border-radius:5px}.drawer-close:hover{background:#ddc59d}.drawer-interior h2{font:700 27px/1.5 "Noto Serif CJK SC","Songti SC",serif;margin:12px 0}.drawer-intro{font-size:13px;color:#7a6344}.drawer-exhibit{display:flex;gap:15px;align-items:center;padding:20px 0 5px;border-top:1px solid #d4ba93;margin-top:22px}.exhibit-number{font:28px monospace;color:#b25331}.drawer-exhibit strong{font-size:16px}.drawer-exhibit small{display:block;font-size:12px;line-height:1.8;color:#7b6447;margin-top:6px}.drawer-exhibit:hover strong{color:#b44220}
+@keyframes drawerPull{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+#resource-modal[data-kind="skill"][open] .modal-content{animation:detailEntry .18s ease-out both}
+#resource-modal[data-kind="news"][open] .modal-content{animation:newsEntry .18s ease-out both}
+#resource-modal[data-kind="notebook"][open] .modal-content{animation:noteEntry .18s ease-out both;transform-origin:left center}
+#resource-modal[data-kind="game"][open] .modal-content{animation:gameEntry .18s ease-out both}
+@keyframes newsEntry{from{opacity:.65;transform:scaleX(.96)}to{opacity:1;transform:none}}
+@keyframes noteEntry{from{opacity:.65;transform:perspective(500px) rotateY(-8deg)}to{opacity:1;transform:none}}
+@keyframes gameEntry{from{opacity:.6;filter:brightness(1.15)}to{opacity:1;filter:none}}
+@media(prefers-reduced-motion:reduce){.character-drawer[open],#resource-modal[open] .modal-content{animation:none!important}}

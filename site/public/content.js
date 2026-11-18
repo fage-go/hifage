@@ -13,3 +13,11 @@ export const reactions = [
  {image:'./assets/fage-thinking.webp',text:'嗯……这个想法，值得动手试试。'},
  {image:'./assets/fage-thumbsup.webp',text:'不错，先做出来，再慢慢打磨。'}
 ];
+
+// Four entry-specific expressions, using the same grounded character artwork.
+export const deskReactions = [
+ {pose:2,text:'Skill 盒里，挑个顺手的方法带走。'},
+ {pose:1,text:'又有新消息？先看看和我们有什么关系。'},
+ {pose:3,text:'这个我记过，翻翻笔记再说。'},
+ {pose:4,text:'想玩？那就先来一局！'}
+];

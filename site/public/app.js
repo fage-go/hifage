@@ -1,9 +1,9 @@
-import {deskItems, gameLink, reactions} from './content.js';
+import {deskItems, gameLink, reactions, deskReactions} from './content.js';
 import {initCharacter} from './character.js';
 import {initDesk} from './desk.js';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-initCharacter(reactions, reduced);
-initDesk(deskItems, gameLink, reduced);
+const character=initCharacter(reactions, deskReactions, reduced);
+initDesk(deskItems, gameLink, reduced, character.reactToDesk);
 function updateDate(){
  const date=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  const el=document.getElementById('today');el.dateTime=date;el.textContent=date.replaceAll('-',' / ');
