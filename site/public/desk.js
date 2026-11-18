@@ -10,7 +10,12 @@ export function initDesk(items,gameLink,reduced,reactToDesk){
   for(const [type,text] of [['span',tag],['h2',title],['p',desc],['small',status]]){const el=document.createElement(type);el.textContent=text;if(type==='span')el.className='caption';if(type==='h2')el.id='modal-title';panel.append(el);}
   if(i===0){const link=document.createElement('a');link.href='./skills/';link.textContent='进入 Skill 盒 ↗';link.className='panel-action';panel.append(link);}
   if(i===3){const link=document.createElement('a');link.href=gameLink.href;link.target='_blank';link.rel='noopener noreferrer';link.textContent=gameLink.label;link.className='panel-action';panel.append(link);}
-  modal.dataset.kind=['skill','news','notebook','game'][i];
+  if(i===4){
+   for(const [href,label,external] of [['./projects/magicnotice/','查看项目介绍 ↗',false],['https://github.com/fage-go/magicnotice','查看公开源码 ↗',true],['https://github.com/fage-go/magicnotice/releases','前往 Releases 下载 ↗',true]]){
+    const link=document.createElement('a');link.href=href;link.textContent=label;link.className='panel-action';if(external){link.target='_blank';link.rel='noopener noreferrer';}panel.append(link);
+   }
+  }
+  modal.dataset.kind=['skill','news','notebook','game','projects'][i];
   if(!modal.open){modal.showModal();document.body.classList.add('modal-open');}
  }
  modal.querySelector('.modal-close').addEventListener('click',()=>modal.close());

@@ -1,18 +1,18 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 class El{constructor(){this.handlers={};this.children=[];this.attrs={};this.dataset={};this.isConnected=true;this.style={setProperty(){},removeProperty(){}};this.classList={add(){},remove(){}};this.closeButton={addEventListener:(t,f)=>this.closeHandler=f};}addEventListener(t,f){this.handlers[t]=f;}setAttribute(k,v){this.attrs[k]=v;}replaceChildren(){this.children=[];}append(e){this.children.push(e);}getBoundingClientRect(){return {left:0,top:0,right:200,bottom:200,width:200,height:200};}querySelector(){return this.closeButton;}showModal(){this.open=true;}close(){this.open=false;this.handlers.close();}focus(){this.focused=true;}}
-const els={},buttons=Array.from({length:4},()=>new El()),headline=new El(),intro=new El();let now=10000;class Clock extends Date{static now(){return now;}}
+const els={},buttons=Array.from({length:5},()=>new El()),headline=new El(),intro=new El();let now=10000;class Clock extends Date{static now(){return now;}}
 const reduced={matches:false,addEventListener(){}};const document={body:new El(),getElementById:id=>els[id]??=new El(),querySelector:s=>s==='.headline-visual'?headline:intro,querySelectorAll:()=>buttons,createElement:()=>new El()};
 const context=vm.createContext({document,Image:class{},matchMedia:()=>reduced,setTimeout:()=>assert.fail('No modal-opening timers allowed'),clearTimeout(){},setInterval(){},clearInterval(){},Intl,Date:Clock});
 for(const file of ['content.js','character.js','desk.js','app.js'])vm.runInContext(fs.readFileSync(__dirname+'/../public/'+file,'utf8').replace(/^import .*;\n/gm,'').replace(/export /g,''),context);
-const expected=['fage-show','fage-surprised','fage-thinking','fage-thumbsup'];const speech=[];
-for(let i=0;i<4;i++){
+const expected=['fage-show','fage-surprised','fage-thinking','fage-thumbsup','fage-show'];const speech=[];
+for(let i=0;i<5;i++){
  buttons[i].handlers.pointerenter({pointerType:'mouse'});assert(els.avatar.src.includes(expected[i]));speech.push(els.speech.textContent);assert(!els['resource-modal'].open);
  buttons[i].handlers.focus();assert(els.avatar.src.includes(expected[i]));
- buttons[i].handlers.click();assert(els['resource-modal'].open,'tap must open synchronously');assert.equal(els.panel.children.length,(i===0||i===3)?5:4);assert.equal(els.panel.children[1].id,'modal-title');els['resource-modal'].closeHandler();assert(buttons[i].focused);
+ buttons[i].handlers.click();assert(els['resource-modal'].open,'tap must open synchronously');assert.equal(els.panel.children.length,i===4?7:(i===0||i===3)?5:4);assert.equal(els.panel.children[1].id,'modal-title');els['resource-modal'].closeHandler();assert(buttons[i].focused);
 }
-assert.equal(new Set(speech).size,4);
+assert.equal(new Set(speech).size,5);buttons[4].handlers.click();assert.equal(els['resource-modal'].dataset.kind,'projects');assert.equal(els.panel.children[4].href,'./projects/magicnotice/');assert.equal(els.panel.children[5].href,'https://github.com/fage-go/magicnotice');assert.equal(els.panel.children[6].href,'https://github.com/fage-go/magicnotice/releases');els['resource-modal'].close();
 buttons[0].handlers.click();buttons[3].handlers.click();assert.equal(els['resource-modal'].dataset.kind,'game');els['resource-modal'].handlers.click({target:els['resource-modal'],clientX:300,clientY:300});assert(!els['resource-modal'].open);
 reduced.matches=true;buttons[2].handlers.click();assert(els['resource-modal'].open);els['resource-modal'].close();
 const drawer=els['character-drawer'];els.person.handlers.click();now+=1200;els.person.handlers.click();assert(!drawer.open);now+=1100;els.person.handlers.click();assert(drawer.open,'3 clicks over 2300ms opens drawer');drawer.closeHandler();assert(els.person.focused);
 now+=3000;els.person.handlers.click();now+=2500;els.person.handlers.click();assert(!drawer.open,'expired click excluded');buttons[1].handlers.focus();now+=100;els.person.handlers.click();assert(!drawer.open,'entry reaction resets egg sequence');now+=100;els.person.handlers.click();now+=100;els.person.handlers.click();assert(drawer.open);drawer.handlers.click({target:drawer,clientX:300,clientY:300});assert(!drawer.open);assert(els.person.focused);
-assert(/\d{4}-\d{2}-\d{2}/.test(els.today.dateTime));console.log('PASS 4 hover/focus/tap reactions; synchronous modal/no timer; rapid entry switch; reduced motion; triple-click 2.4s egg; expiry/reset; drawer close/backdrop/focus return; date. Native Escape semantics require browser QA.');
+assert(/\d{4}-\d{2}-\d{2}/.test(els.today.dateTime));console.log('PASS 5 hover/focus/tap reactions; synchronous modal/no timer; rapid entry switch; reduced motion; triple-click 2.4s egg; expiry/reset; drawer close/backdrop/focus return; date. Native Escape semantics require browser QA.');

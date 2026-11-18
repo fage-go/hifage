@@ -85,3 +85,12 @@ dialog[open] .modal-content{animation:detailEntry .2s ease-out both}
 @keyframes noteEntry{from{opacity:.65;transform:perspective(500px) rotateY(-8deg)}to{opacity:1;transform:none}}
 @keyframes gameEntry{from{opacity:.6;filter:brightness(1.15)}to{opacity:1;filter:none}}
 @media(prefers-reduced-motion:reduce){.character-drawer[open],#resource-modal[open] .modal-content{animation:none!important}}
+
+/* Fifth desk entry: five columns where they fit, never five tiny mobile targets. */
+.desk-items{grid-template-columns:repeat(5,minmax(0,1fr))}
+.projects:is(:hover,:focus-visible) .object-image{transform:translateY(-7px) rotate(calc(-2deg + var(--mx)*7deg))}
+.projects .spark{font:700 16px monospace}
+#resource-modal[data-kind="projects"] .panel-action{display:block;width:fit-content;padding:7px 0;margin-top:3px}
+@media(min-width:701px) and (max-width:1000px){.desk-items{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 20px}.object-stage{height:90px}.desk-item:nth-child(4){grid-column:1}.desk-item:nth-child(5){grid-column:2}}
+@media(max-width:700px){.desk-items{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 20px}.object-stage{height:clamp(72px,9svh,88px)}.desk-item:last-child{grid-column:1/-1;width:calc(50% - 10px);justify-self:center}}
+@media(prefers-reduced-motion:reduce){.projects:is(:hover,:focus-visible) .object-image{transform:none!important}}
