@@ -3,6 +3,33 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-20",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "06:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "Google 将 Genie 4 接入 Gemini API",
+            "summary": "开发者可以在 Google AI Studio 试用，或通过 Interactions API 接入。用文字或参考图生成场景后，还能用键盘在里面走动、用文字改天气和物件，适合先验证互动原型。",
+            "source": "Google",
+            "sourceDate": "2026-11-20",
+            "url": "https://blog.google/innovation-and-ai/technology/developers-tools/genie-4-in-gemini-api/"
+          },
+          {
+            "title": "Anthropic 在纳斯达克上市，首笔成交 111.50 美元",
+            "summary": "纳斯达克确认 ANT 正式开始交易，首笔成交比昨晚简报里的 83 美元发行价高约 34%。这是开盘成交，不是收盘价。",
+            "source": "纳斯达克",
+            "sourceDate": "2026-11-20",
+            "url": "https://www.nasdaqtrader.com/Trader.aspx?id=MarketSystemStatus"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-19",
     "editions": [
       {
