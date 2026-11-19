@@ -1,0 +1,16 @@
+---
+import ProjectRelease from './ProjectRelease.astro';
+const {project}=Astro.props;
+const base=import.meta.env.BASE_URL;
+---
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>{project.title} · HiFage</title><meta name="description" content={project.description}/><meta property="og:title" content={project.title+' · HiFage'}/><meta property="og:description" content={project.description}/><link rel="canonical" href={project.page}/><link rel="stylesheet" href={base+'project-workbench.css'}/><link rel="apple-touch-icon" href={base+'apple-touch-icon.png'}/><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23e65021%22%2F%3E%3Cpath%20d%3D%22M17%2025Q16%2018%2024%2017H42Q48%2020%2047%2029L45%2043Q40%2051%2032%2053Q23%2050%2019%2043Z%22%20fill%3D%22%23fff0d5%22%2F%3E%3Cpath%20d%3D%22M13%2028L16%2017L13%2014Q24%2016%2031%207L31%2013Q42%208%2049%2012L45%2016L52%2017L48%2028L41%2023Q27%2028%2018%2024L17%2030Z%22%20fill%3D%22%2323251d%22%2F%3E%3Cpath%20d%3D%22M15%2029H29L32%2031L35%2029H49L47%2040H36L33%2034H31L28%2040H17Z%22%20fill%3D%22%2323251d%22%2F%3E%3Cpath%20d%3D%22M26%2046Q32%2049%2038%2044%22%20fill%3D%22none%22%20stroke%3D%22%2323251d%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E"></head><body>
+<a class="skip" href="#project-main">跳到项目内容</a>
+<header><a class="brand" href={base}>Hi<em>Fage</em></a><nav aria-label="面包屑"><a href={base+'#desk'}>发哥的桌面</a><span aria-hidden="true"> / </span><a href={base+'desk/projects/'}>开源项目</a><span aria-hidden="true"> / </span><span aria-current="page">{project.name}</span></nav></header>
+<main id="project-main" tabindex="-1">
+<section class="overview" aria-labelledby="project-title"><div class="identity"><img class="app" src={base+project.icon} alt={project.name+'应用图标'} width="94" height="94"/><div><p class="eyebrow">{project.platform} · PROJECT</p><h1 id="project-title">{project.name}</h1><div class="english">{project.subtitle}</div></div></div><p class="lead">{project.purposeLines ? project.purposeLines.map(line=><span>{line}</span>) : project.purpose}</p><p class="intro">{project.description}</p></section>
+<aside class="download"><ProjectRelease project={project}/></aside>
+<section class="features" aria-label="主要功能">{project.features.map(feature=><article class="feature"><span class="glyph" aria-hidden="true">{feature.symbol}</span><div><h2>{feature.title}</h2><p>{feature.description}</p></div></article>)}</section>
+<div class="meta"><span>{project.license.label}</span><span>{project.license.name}</span></div>
+<section class="license" aria-label="使用许可"><p>{project.license.summary}</p><div><a href={'https://github.com/'+project.repo} target="_blank" rel="noopener noreferrer">查看源码</a><a href={project.license.url} target="_blank" rel="noopener noreferrer">许可与使用范围</a></div></section>
+</main><footer><a href={base}>@HiFage · 发哥做过的东西</a><span>认真折腾，慢慢打磨。</span></footer>
+</body></html>

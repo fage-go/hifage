@@ -106,5 +106,15 @@ assert.equal(widget['[data-release-links]'].children.length, 0);
 assert.equal(widget['[data-release-retry]'].hidden, false);
 assert.doesNotMatch(widget['[data-release-status]'].textContent, /GitHub/);
 const page = readFileSync(new URL('../src/pages/projects/magicnotice.astro', import.meta.url), 'utf8');
-assert(page.includes('<ProjectRelease project={projects.magicnotice}/>'));
+assert(page.includes('<ProjectWorkbench project={projects.magicnotice}/>'));
+const layout=readFileSync(new URL('../src/components/ProjectWorkbench.astro',import.meta.url),'utf8');
+assert(layout.includes('<ProjectRelease project={project}/>'));
+assert(layout.includes("base+'desk/projects/'"));
+const component=readFileSync(new URL('../src/components/ProjectRelease.astro',import.meta.url),'utf8');
+for(const hook of ['data-release-status','data-release-result','data-release-links','data-release-retry','id="release-heading"'])assert(component.includes(hook));
+const css=readFileSync(new URL('../public/project-workbench.css',import.meta.url),'utf8');
+assert(css.includes('.download{order:1;'));
+assert(css.includes('.features{order:2}'));
+assert(css.includes('[data-transfer=magicnotice] .release-file:first-child'));
+
 console.log('PASS Cloudflare v2/general URLs, unsafe/duplicate rejection, snapshot staleness, v1-only 404, same click/QR URL, lazy accessible disclosure, retry/race');

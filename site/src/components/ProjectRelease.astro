@@ -3,12 +3,12 @@ const {project}=Astro.props;
 const base=import.meta.env.BASE_URL;
 ---
 <section class="project-release" data-release-widget data-repo={project.repo} data-transfer={project.transfer} aria-labelledby="release-heading">
- <h2 id="release-heading" tabindex="-1">下载与更新</h2>
+ <div class="download-head"><h2 id="release-heading" tabindex="-1">{project.downloadTitle || "下载与更新"}</h2>{project.format && <span class="stamp">{project.format}</span>}</div>
  <p data-release-status role="status" aria-live="polite">正在查询下载版本…</p>
- <div data-release-result hidden><h3 data-release-name></h3><p data-release-meta></p><div class="release-downloads" data-release-links></div></div>
+ <div data-release-result hidden><div class="release-record"><h3 data-release-name></h3><p data-release-meta></p></div><div class="release-downloads" data-release-links></div></div>
  <p data-release-retry hidden><button type="button">重试查询</button></p>
  <noscript><p>启用 JavaScript 后即可查看下载链接。</p></noscript>
- {project.qr && <figure class="project-qr"><img src={`${base}${project.qr}`} width="192" height="192" alt={`${project.title}项目介绍页二维码`}/><figcaption>手机扫码打开项目页，再选择适合的安装包。</figcaption><a href={project.page}>{project.page}</a></figure>}
+ <p class="release-help">版本与文件由下载服务自动查询，可能包含预发布版本。</p>
+ {project.qr && <figure class="project-qr"><img src={`${base}${project.qr}`} width="112" height="112" alt={`${project.title}项目介绍页二维码`}/><figcaption><strong>在手机上继续</strong><p>扫码打开项目页，再选择适合的语言版本。</p><a href={project.page}>打开项目页</a></figcaption></figure>}
 </section>
 <script is:inline type="module" src={`${base}project-releases.js`}></script>
-<style>.release-downloads{display:flex;gap:12px;flex-wrap:wrap}.release-downloads :global(a){padding:10px 15px;background:#f1dfc1;border:1px solid #c4a67c;border-radius:5px;text-decoration:none;overflow-wrap:anywhere}.release-downloads :global(.release-file){max-width:100%}.release-downloads :global(.release-file>a){display:block}.release-downloads :global(summary){cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin:8px 0;font-size:14px}.release-downloads :global(details img){display:block;width:176px;max-width:100%;height:auto;image-rendering:pixelated}.release-downloads :global(details p){margin:0;font-size:13px}.project-release h3{font-size:18px;overflow-wrap:anywhere}.project-release [data-release-meta]{font-size:13px}.project-release [hidden]{display:none}.project-release button{font:inherit;color:inherit;border:1px solid #c4a67c;background:#f1dfc1;border-radius:5px;padding:8px 12px;cursor:pointer}.project-qr{margin:24px 0 0}.project-qr img{display:block;max-width:100%;height:auto;background:white}.project-qr figcaption{font-size:14px;color:#635c4c;margin-top:8px}.project-qr>a{font-size:13px;overflow-wrap:anywhere}</style>
