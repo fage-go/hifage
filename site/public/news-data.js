@@ -3,6 +3,33 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-19",
+    "editions": [
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "18:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "OpenAI 公开编程 Agent 加速研究的新数据",
+            "summary": "报告称，编程 Agent 能承担更长的任务，也能加快写代码和跑实验；但选题、验证结果和判断实验质量仍需要研究人员把关。这是 OpenAI 的内部研究观察，不等于所有研究都被同样加速。",
+            "source": "OpenAI",
+            "sourceDate": "2026-11-19",
+            "url": "https://openai.com/index/research-acceleration-jagged-frontier/"
+          },
+          {
+            "title": "Anthropic 公布 IPO 定价：每股 83 美元",
+            "summary": "Anthropic 公告称，股票预计于美国当地时间 11 月 19 日在纳斯达克开始交易，代码为 ANT。截至本期截稿，官方确认的是发行定价，不是开盘价。",
+            "source": "Anthropic",
+            "sourceDate": "2026-11-19",
+            "url": "https://www.anthropic.com/news/anthropic-prices-initial-public-offering"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2025-09-29",
     "editions": [
       {
