@@ -1,0 +1,14 @@
+---
+const {project}=Astro.props;
+const base=import.meta.env.BASE_URL;
+---
+<section class="project-release" data-release-widget data-repo={project.repo} data-policy={project.policy || 'uploaded'} aria-labelledby="release-heading">
+ <h2 id="release-heading">下载与更新</h2>
+ <p data-release-status role="status" aria-live="polite">正在查询 GitHub 上最新发布的版本…</p>
+ <div data-release-result hidden><h3 data-release-name></h3><p data-release-meta></p><div class="release-downloads" data-release-links></div></div>
+ <p><a href={`https://github.com/${project.repo}/releases`} target="_blank" rel="noopener noreferrer">查看全部 Releases 与安装说明 ↗</a></p>
+ <noscript><p>启用 JavaScript 可查询最新下载；也可直接打开上方 Releases。</p></noscript>
+ {project.qr && <figure class="project-qr"><img src={`${base}${project.qr}`} width="192" height="192" alt={`${project.title}项目介绍页二维码`}/><figcaption>手机扫码打开项目页，再选择适合的安装包。</figcaption><a href={project.page}>{project.page}</a></figure>}
+</section>
+<script is:inline type="module" src={`${base}project-releases.js`}></script>
+<style>.release-downloads{display:flex;gap:12px;flex-wrap:wrap}.release-downloads :global(a){padding:10px 15px;background:#f1dfc1;border:1px solid #c4a67c;border-radius:5px;text-decoration:none;overflow-wrap:anywhere}.project-release h3{font-size:18px;overflow-wrap:anywhere}.project-release [data-release-meta]{font-size:13px}.project-release [hidden]{display:none}.project-qr{margin:24px 0 0}.project-qr img{display:block;max-width:100%;height:auto;background:white}.project-qr figcaption{font-size:14px;color:#635c4c;margin-top:8px}.project-qr>a{font-size:13px;overflow-wrap:anywhere}</style>
