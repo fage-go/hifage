@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
     paths: ['site/**', '.github/workflows/astro-pages.yml']
+  schedule:
+    - cron: '43 */6 * * *' # refresh the durable release snapshot, off the hour
   workflow_dispatch:
     inputs:
       deploy:
@@ -31,10 +33,16 @@ jobs:
           cache: npm
           cache-dependency-path: site/package-lock.json
       - name: Read GitHub Pages settings
-        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy))
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.deploy))
         id: pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - run: npm ci
+      - name: Refresh public download catalog
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/release-catalog.mjs
+          node scripts/test-release-catalog.mjs
       - name: Build static Astro site
         env:
           SITE_URL: ${{ steps.pages.outputs.origin }}
@@ -47,7 +55,7 @@ jobs:
         with:
           path: site/dist
   deploy:
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy))
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.deploy))
     needs: build
     runs-on: ubuntu-latest
     permissions:

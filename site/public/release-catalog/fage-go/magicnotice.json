@@ -1,0 +1,27 @@
+{
+  "repo": "fage-go/magicnotice",
+  "name": "MagicNotice signed-71375e9cb378",
+  "tag": "signed-71375e9cb378",
+  "publishedAt": "2026-11-19T07:21:56Z",
+  "prerelease": true,
+  "checkedAt": "2026-11-19T13:19:40.332Z",
+  "stale": false,
+  "downloads": [
+    {
+      "id": 766676631,
+      "label": "下载中文版 APK",
+      "name": "cicada_zh_release_v1680-signed.apk",
+      "size": 4328393,
+      "originalUrl": "https://github.com/fage-go/magicnotice/releases/download/signed-71375e9cb378/cicada_zh_release_v1680-signed.apk",
+      "downloadUrl": "https://download.hifage.com/v2/assets/fage-go/magicnotice/signed-71375e9cb378/766676631"
+    },
+    {
+      "id": 766676634,
+      "label": "下载英文版 APK",
+      "name": "cicada_en_release_v1680-signed.apk",
+      "size": 4332489,
+      "originalUrl": "https://github.com/fage-go/magicnotice/releases/download/signed-71375e9cb378/cicada_en_release_v1680-signed.apk",
+      "downloadUrl": "https://download.hifage.com/v2/assets/fage-go/magicnotice/signed-71375e9cb378/766676634"
+    }
+  ]
+}
