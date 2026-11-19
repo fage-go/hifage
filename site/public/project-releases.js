@@ -160,15 +160,13 @@ export async function initReleaseWidget(widget, options) {
     if (!isCurrent()) return;
     if (!release) throw new Error('No downloadable release');
     widget.querySelector('[data-release-name]').textContent = release.name;
-    const checked = release.stale && release.checkedAt ? ' · 上次检查：' + datetime.format(new Date(release.checkedAt)) : '';
     widget.querySelector('[data-release-meta]').textContent =
       release.tag + ' · ' + datetime.format(new Date(release.publishedAt)) + '（北京时间）' +
-      (release.prerelease ? ' · 预发布' : '') + checked;
+      (release.prerelease ? ' · 预发布' : '');
     for (const download of release.downloads) {
       links.append(fileControl(download, options?.makeQr ?? makeReleaseQr, isCurrent));
     }
-    status.textContent = release.stale ? '上次可用的下载版本（未确认是否最新）' :
-      release.source === 'legacy' ? '下载版本（兼容接口）' : '当前可下载版本';
+    status.textContent = '可下载版本';
     if (retry && release.stale) retry.hidden = false;
     result.hidden = false;
   } catch {

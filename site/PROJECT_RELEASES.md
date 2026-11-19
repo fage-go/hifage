@@ -3,7 +3,7 @@
 Add a real project in `src/data/projects.js` with a lower-case GitHub `owner/repo` and render `ProjectRelease` on its page. The download Worker determines which release and uploaded assets are eligible; its MagicNotice policy retains the complete signed Chinese/English pair. No public GitHub API requests are made by the browser.
 
 - Primary metadata: `GET https://download.hifage.com/v2/releases?repo=<encoded GitHub repository URL>`.
-- Last-known fallback after an unavailable or rejected primary response: `release-catalog/<owner>/<repo>.json`, relative to the site base. Cached or catalog results show “未确认是否最新” and the check date.
+- Last-known fallback after an unavailable or rejected primary response: `release-catalog/<owner>/<repo>.json`, relative to the site base. Cached or catalog results use the same neutral “可下载版本” label and show the actual publication time. Stale status still enables retry internally.
 - An explicit v2 404 may indicate the previous Worker is still deployed. For the configured MagicNotice project only, try its existing v1 endpoint. No direct GitHub binary URLs are used or exposed.
 - v2 links must match the exact expected HTTPS hostname and encoded path, including the repository, tag and asset ID. Catalog rows obey the same rules.
 - The site's existing static project-page QR is separate. File controls generate a per-file QR lazily in the browser from the same validated URL used by the download button with no third-party request.
