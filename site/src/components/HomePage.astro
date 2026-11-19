@@ -1,0 +1,16 @@
+---
+import Hero from "./Hero.astro";
+import Desk from "./Desk.astro";
+import Finder from "./Finder.astro";
+const base = import.meta.env.BASE_URL;
+---
+<!doctype html><html lang="zh-CN" data-base={base}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="HiFage，发哥的桌面。打开 Skill 盒、看看 AI 资讯、翻翻教程笔记，或体验发哥做的小游戏。公众号：发哥聊一聊AI。"><meta name="theme-color" content="#faf5e9"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23e65021%22%2F%3E%3Cpath%20d%3D%22M17%2025Q16%2018%2024%2017H42Q48%2020%2047%2029L45%2043Q40%2051%2032%2053Q23%2050%2019%2043Z%22%20fill%3D%22%23fff0d5%22%2F%3E%3Cpath%20d%3D%22M13%2028L16%2017L13%2014Q24%2016%2031%207L31%2013Q42%208%2049%2012L45%2016L52%2017L48%2028L41%2023Q27%2028%2018%2024L17%2030Z%22%20fill%3D%22%2323251d%22%2F%3E%3Cpath%20d%3D%22M15%2029H29L32%2031L35%2029H49L47%2040H36L33%2034H31L28%2040H17Z%22%20fill%3D%22%2323251d%22%2F%3E%3Cpath%20d%3D%22M26%2046Q32%2049%2038%2044%22%20fill%3D%22none%22%20stroke%3D%22%2323251d%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E"><link rel="apple-touch-icon" sizes="180x180" href={`${base}apple-touch-icon.png`}><title>HiFage · 发哥的桌面</title>
+<link rel="stylesheet" href={`${base}styles.css`}>
+<link rel="stylesheet" href={`${base}backpack.css`}>
+</head><body><header><a href="#" class="brand">Hi<b>Fage</b></a><nav><a href="#about">关于我</a><a href="#desk">逛桌面</a></nav></header>
+<main><div class="scene">
+<Hero />
+<Desk />
+</div></main>
+<footer class="foot"><span>@HiFage</span><time id="today" aria-label="中国标准时间日期"></time></footer><Finder />
+<dialog id="character-drawer" class="character-drawer" aria-labelledby="drawer-title"><button class="drawer-close" type="button" aria-label="关闭发哥的小抽屉">×</button><div class="drawer-interior"><span class="caption">FAGE’S LITTLE DRAWER</span><h2 id="drawer-title">被你发现了。</h2><p class="drawer-intro">这里留一件做东西时的小趣事。</p><a class="drawer-exhibit" href="https://cq.hifage.com/motion-lab.html" target="_blank" rel="noopener noreferrer"><span class="exhibit-number" aria-hidden="true">01</span><span><strong>战士转个身 <span aria-hidden="true">↗</span></strong><small>原来转身不难，难的是胳膊别穿帮。</small></span></a></div></dialog><script is:inline type="module" src={`${base}app.js`}></script></body></html>

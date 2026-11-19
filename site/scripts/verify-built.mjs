@@ -21,8 +21,10 @@ for(const [name,html]of [['index.html',home],['skills/index.html',skills],['proj
  }
 }
 assert(project.includes('通知了 / MagicNotice'));assert(project.includes('源码公开 · 非商业许可'));assert(project.includes('https://github.com/fage-go/magicnotice/releases'));assert(!project.includes('.apk'));
-for(const id of ['finder-title','finder-back','finder-categories','finder-items','finder-detail'])assert(home.includes('id="'+id+'"'));
+for(const id of ['backpack-title','backpack-slots','backpack-actions','backpack-actor','backpack-qr'])assert(home.includes('id="'+id+'"'));
 const finder=readFileSync(root+'finder-data.js','utf8');assert(finder.includes('https://github.com/fage-go/magicnotice/releases'));assert(!finder.includes('releases/latest'));for(const m of finder.matchAll(/(?:icon|qr):'\.\/([^']+)'/g))assert(existsSync(root+m[1]),m[1]);
 for(const item of pixelSkills){const file=skillDownload(item.id,base);assert(skills.includes(file));const page=readFileSync(root+'skills/'+item.id+'/index.html','utf8');assert(page.includes(item.title));assert(page.includes(file));assert(page.includes('SKILL.md'));assert(page.includes('CODEX_HOME'));const bytes=readFileSync(root+'downloads/skills/'+item.id+'.zip');assert.equal(bytes.readUInt32LE(0),0x04034b50);}
 const content=readFileSync(root+'content.js','utf8');assert.equal((content.match(/image:/g)||[]).length,5);
 console.log('PASS generated home, four Skills, direct ZIPs and guidance, local URLs, 5 poses, exact original QR; base='+base);
+
+for(const category of ['skills','news','notes','games','projects']){const page=readFileSync(root+'desk/'+category+'/index.html','utf8');assert(page.includes('data-base="'+base+'"'));assert(page.includes('href="'+base+'backpack.css"'));assert(page.includes('src="'+base+'app.js"'));assert(page.includes('嗨，我是发哥。'));}console.log('PASS five independent static backpack paths, unchanged home and non-colliding Skills/project routes');
