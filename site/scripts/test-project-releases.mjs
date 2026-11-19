@@ -1,48 +1,110 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import {selectRelease,safeAsset,fetchLatestRelease,fetchTransferRelease,initReleaseWidget} from '../public/project-releases.js';
-const repo='fage-go/magicnotice';
-const asset=(lang,tag)=>({name:`cicada_${lang}_release_v1680-signed.apk`,size:100,state:'uploaded',browser_download_url:`https://github.com/${repo}/releases/download/${tag}/cicada_${lang}_release_v1680-signed.apk`});
-const release=(tag,date)=>({tag_name:tag,name:'Official '+tag,published_at:date,draft:false,prerelease:true,assets:[asset('zh',tag),asset('en',tag)]});
-const old=release('signed-old','2026-11-18T00:00:00Z'),fresh=release('signed-new','2026-11-19T00:00:00Z');
-assert.equal(selectRelease([old,fresh],repo,'magicnotice-signed').tag,'signed-new');
-for(const bad of [{...fresh,draft:true},{...fresh,assets:fresh.assets.slice(0,1)},{...fresh,published_at:null},{...fresh,assets:fresh.assets.map(a=>({...a,state:'new'}))}])assert.equal(selectRelease([old,bad],repo,'magicnotice-signed').tag,'signed-old');
-for(const url of ['javascript:alert(1)',fresh.assets[0].browser_download_url.replace(repo,'evil/repo'),fresh.assets[0].browser_download_url.replace('signed-new','signed-old'),fresh.assets[0].browser_download_url+'?x=1'])assert(!safeAsset({...fresh.assets[0],browser_download_url:url},repo,fresh.tag_name));
-assert.equal(selectRelease([{...fresh,assets:[fresh.assets[0]]}],repo).downloads.length,1);
-assert.equal(selectRelease([],repo),null);
-const response=(rows,next=false)=>({ok:true,json:async()=>rows,headers:{get:()=>next?'<https://api.github.com/next>; rel="next"':null}});
-let calls=0;assert.equal((await fetchLatestRelease(repo,'magicnotice-signed',{fetcher:async()=>response(calls++?[fresh]:[old],calls===1)})).tag,'signed-new');assert.equal(calls,2);
-await assert.rejects(fetchLatestRelease(repo,'uploaded',{fetcher:async()=>({ok:false})}));
-await assert.rejects(fetchLatestRelease(repo,'uploaded',{maxPages:1,fetcher:async()=>response([old],true)}));
-await assert.rejects(fetchLatestRelease(repo,'uploaded',{timeoutMs:5,fetcher:async(u,{signal})=>new Promise((res,rej)=>signal.addEventListener('abort',()=>rej(new Error('timeout'))))}));
-class El{constructor(){this.hidden=false;this.children=[];this.textContent='';}replaceChildren(){this.children=[]}append(x){this.children.push(x)}}
-globalThis.document={createElement:()=>new El()};
-const els={};const widget={dataset:{repo,policy:'magicnotice-signed'},querySelector:s=>els[s]??=new El()};
-await initReleaseWidget(widget,{fetcher:async()=>response([fresh])});assert(!els['[data-release-result]'].hidden);assert.equal(els['[data-release-links]'].children.length,2);
-await initReleaseWidget(widget,{fetcher:async()=>({ok:false})});assert(els['[data-release-result]'].hidden);assert.equal(els['[data-release-links]'].children.length,0);assert(els['[data-release-status]'].textContent.includes('暂时无法'));
-let finish;const pending=initReleaseWidget(widget,{fetcher:()=>new Promise(resolve=>finish=resolve)});await initReleaseWidget(widget,{fetcher:async()=>response([fresh])});finish(response([old]));await pending;assert.equal(els['[data-release-name]'].textContent,fresh.name);
-const fixture=process.argv[2];if(fixture){const selected=selectRelease(JSON.parse(fs.readFileSync(fixture,'utf8')),repo,'magicnotice-signed');assert(selected);console.log('LIVE API fixture:',selected.tag,selected.publishedAt,selected.downloads);}
-const page=fs.readFileSync(new URL('../src/pages/projects/magicnotice.astro',import.meta.url),'utf8');assert(page.includes('<ProjectRelease project={projects.magicnotice}/>'));
-console.log('PASS published_at ordering, repeated filenames, prerelease, complete signed pair, exact asset URLs, generic assets, pagination, timeout/403, fallback, stale callbacks and page wiring');
+import {readFileSync} from 'node:fs';
+import {fetchProjectRelease, fetchTransferRelease, initReleaseWidget, makeReleaseQr} from '../public/project-releases.js';
 
-for(const size of [undefined,NaN,Infinity,0,-1,'100'])assert(!safeAsset({...fresh.assets[0],size},repo,fresh.tag_name));
-assert.equal(selectRelease([{...fresh,name:{},assets:fresh.assets.map(a=>({...a,label:{}}))}],repo).name,fresh.tag_name);
-assert.equal(selectRelease([{...fresh,assets:[fresh.assets[0],{...fresh.assets[1],name:'cicada_en_release_v1681-signed.apk',browser_download_url:fresh.assets[1].browser_download_url.replace('v1680','v1681')}]}],repo,'magicnotice-signed'),null);
-for(const file of fs.readdirSync(new URL('../src/pages/projects/',import.meta.url)))if(file.endsWith('.astro'))assert(fs.readFileSync(new URL('../src/pages/projects/'+file,import.meta.url),'utf8').includes('<ProjectRelease '));
-console.log('PASS malformed fields, same-version signed pairs and all current project pages wired');
+const H = 'https://download.hifage.com', repo = 'fage-go/magicnotice', other = 'owner/another';
+const endpoint = r => H + '/v2/releases?repo=' + encodeURIComponent('https://github.com/' + r);
+const tag = 'build/release-1';
+const asset = (repo, id) => ({id, label: '<file>', name: 'app.zip', size: 100, originalUrl: 'https://evil.invalid/not-visible', downloadUrl: H + '/v2/assets/' + repo + '/' + encodeURIComponent(tag) + '/' + id});
+const manifest = (r = repo) => ({repo: r, name: '<Build>', tag, publishedAt: '2026-11-19T00:00:00Z',
+  checkedAt: new Date().toISOString(), prerelease: true, stale: false, downloads: [asset(r, 51), asset(r, 52)]});
+const ok = data => ({ok: true, status: 200, json: async () => data});
+const err = status => ({ok: false, status});
+const legacyBase = '/v1/projects/magicnotice';
+const legacyTag = 'signed-a';
+const legacy = {name: 'Legacy', tag: legacyTag, publishedAt: '2026-11-19T00:00:00Z', prerelease: true,
+  downloads: ['en', 'zh'].map(lang => ({path: legacyBase + '/assets/' + legacyTag + '/cicada_' + lang + '_release_v1680-signed.apk'}))};
 
-const dir='/v1/projects/magicnotice/assets/signed-new/';
-const manifest={name:'Cloud release',tag:'signed-new',publishedAt:'2026-11-19T00:00:00Z',prerelease:true,downloads:['en','zh'].map(lang=>({path:dir+`cicada_${lang}_release_v1680-signed.apk`}))};
-const mirror='https://download.hifage.com';
-const call=info=>({fetcher:async (url,opts)=>{assert.equal(url,mirror+'/v1/projects/magicnotice/latest');assert.equal(opts.redirect,'error');return {ok:true,json:async()=>info}}});
-assert.equal((await fetchTransferRelease('magicnotice',call(manifest))).downloads[0].url,mirror+dir+'cicada_zh_release_v1680-signed.apk');
-for(const invalid of ['https://evil.invalid/file.apk','//evil.invalid/file.apk',dir+'../cicada_en_release_v1680-signed.apk',dir+'cicada_en_release_v1681-signed.apk',dir+'cicada_en_release_v1680-signed.apk?fake=1',dir+'cicada_zh_release_v1680-signed.apk']){
- await assert.rejects(fetchTransferRelease('magicnotice',call({...manifest,downloads:[{path:invalid},manifest.downloads[1]]})));
+const direct = await fetchProjectRelease(other, undefined, {fetcher: async (url, opts) => {
+  assert.equal(url, endpoint(other));
+  assert.equal(opts.credentials, 'omit');
+  assert.equal(opts.redirect, 'error');
+  return ok(manifest(other));
+}});
+assert.equal(direct.source, 'live');
+assert.equal(direct.stale, false);
+assert.equal(direct.downloads[0].url, asset(other, 51).downloadUrl);
+assert(!JSON.stringify(direct).includes('evil.invalid'));
+
+for (const draft of [
+  {...manifest(), repo: other},
+  {...manifest(), checkedAt: 'bogus'},
+  {...manifest(), stale: 'false'},
+  {...manifest(), downloads: []},
+  {...manifest(), downloads: [asset(repo, 51), asset(repo, 51)]},
+  {...manifest(), downloads: [{...asset(repo, 51), id: '051'}]},
+  ...['https://github.com/app.apk', 'https://evil.invalid/file.apk', '//download.hifage.com/file.apk', asset(repo, 51).downloadUrl + '?a=b',
+    asset(repo, 51).downloadUrl + '#anything', asset(repo, 51).downloadUrl.replace('%2F', '%2f'),
+    asset(repo, 51).downloadUrl.replace('https://', 'https://user@'), asset(other, 51).downloadUrl, asset(repo, 999).downloadUrl]
+      .map(downloadUrl => ({...manifest(), downloads: [{...asset(repo, 51), downloadUrl}]})),
+]) {
+  assert.equal(await fetchProjectRelease(repo, 'magicnotice', {fetcher: async url => url === endpoint(repo) ? ok(draft) : err(404)}), null);
 }
-await assert.rejects(fetchTransferRelease('other',call(manifest)));
-assert.equal(await fetchTransferRelease('magicnotice',{fetcher:async()=>({status:404,ok:false})}),null);
-const cfEls={};const cfWidget={dataset:{repo,transfer:'magicnotice'},querySelector:s=>cfEls[s]??=new El()};
-cfWidget.querySelector('[data-release-retry]').querySelector=()=>({onclick:null});
-await initReleaseWidget(cfWidget,call(manifest));assert.equal(cfEls['[data-release-links]'].children.length,2);assert(cfEls['[data-release-links]'].children.every(a=>a.href.startsWith(mirror+'/')));
-await initReleaseWidget(cfWidget,{fetcher:async()=>({status:502,ok:false})});assert(cfEls['[data-release-result]'].hidden);assert.equal(cfEls['[data-release-links]'].children.length,0);assert(!cfEls['[data-release-retry]'].hidden);assert(!cfEls['[data-release-status]'].textContent.includes('GitHub'));
-console.log('PASS download relay same-origin path validation, paired APKs, no GitHub download fallback, retry UI');
+
+let urls = [];
+const collected = await fetchProjectRelease(repo, 'magicnotice', {fetcher: async url => {
+  urls.push(url);
+  return urls.length === 1 ? err(502) : ok(manifest(repo));
+}});
+assert.equal(collected.source, 'catalog');
+assert.equal(collected.stale, true);
+assert.match(urls[1], /\/release-catalog\/fage-go\/magicnotice\.json$/);
+assert.equal(await fetchProjectRelease(repo, 'magicnotice', {fetcher: async url =>
+  url === endpoint(repo) ? err(403) : ok({...manifest(), checkedAt: '2000-01-01T00:00:00Z'})}), null);
+urls = [];
+const compat = await fetchProjectRelease(repo, 'magicnotice', {fetcher: async url => {
+  urls.push(url);
+  return urls.length === 1 ? err(404) : ok(legacy);
+}});
+assert.deepEqual(urls, [endpoint(repo), H + legacyBase + '/latest']);
+assert.equal(compat.source, 'legacy');
+assert.equal(compat.downloads[0].url, H + legacy.downloads[1].path);
+assert.equal(await fetchProjectRelease(other, undefined, {fetcher: async url => {
+  assert.equal(url, endpoint(other));
+  return err(404);
+}}), null);
+await assert.rejects(fetchTransferRelease('magicnotice', {fetcher: async () => ok({...legacy, downloads: [{path: '//evil.invalid/file.apk'}, legacy.downloads[0]]})}));
+
+class El {
+  constructor(tag) {this.tagName = tag; this.children = []; this.events = {}; this.attrs = {}; this.hidden = false; this.textContent = '';}
+  replaceChildren() {this.children = [];}
+  append(...children) {this.children.push(...children);}
+  setAttribute(name, value) {this.attrs[name] = value;}
+  addEventListener(event, fn) {this.events[event] = fn;}
+  querySelector(selector) {return this[selector] ??= new El(selector);}
+}
+globalThis.document = {createElement: tag => new El(tag)};
+const widget = new El('widget');
+widget.dataset = {repo, transfer: 'magicnotice'};
+let qrUrl;
+await initReleaseWidget(widget, {fetcher: async () => ok(manifest()), makeQr: async url => {qrUrl = url; return 'data:image/gif;base64,AA';}});
+assert.equal(widget['[data-release-status]'].textContent, '当前可下载版本');
+assert.equal(widget['[data-release-name]'].textContent, '<Build>');
+assert.match(widget['[data-release-meta]'].textContent, /预发布/);
+const [link, disclosure] = widget['[data-release-links]'].children[0].children;
+assert.equal(link.href, asset(repo, 51).downloadUrl);
+assert.equal(link.textContent, '<file>');
+assert.equal(qrUrl, undefined);
+assert.equal(disclosure.children[0].attrs['aria-label'], '扫码下载：<file>');
+disclosure.open = true;
+await disclosure.events.toggle();
+assert.equal(qrUrl, link.href);
+assert.equal(disclosure.children[2].alt, '<file>的下载二维码');
+const qr = await makeReleaseQr(link.href);
+assert.match(qr, /^data:image\/gif;base64,R0lGOD/);
+await initReleaseWidget(widget, {fetcher: async () => ok({...manifest(), stale: true})});
+assert.match(widget['[data-release-status]'].textContent, /未确认是否最新/);
+assert.match(widget['[data-release-meta]'].textContent, /上次检查/);
+assert.equal(widget['[data-release-retry]'].hidden, false);
+let resolveOld;
+const pending = initReleaseWidget(widget, {fetcher: () => new Promise(resolve => resolveOld = resolve)});
+await initReleaseWidget(widget, {fetcher: async () => err(502)});
+resolveOld(ok(manifest()));
+await pending;
+assert.equal(widget['[data-release-result]'].hidden, true);
+assert.equal(widget['[data-release-links]'].children.length, 0);
+assert.equal(widget['[data-release-retry]'].hidden, false);
+assert.doesNotMatch(widget['[data-release-status]'].textContent, /GitHub/);
+const page = readFileSync(new URL('../src/pages/projects/magicnotice.astro', import.meta.url), 'utf8');
+assert(page.includes('<ProjectRelease project={projects.magicnotice}/>'));
+console.log('PASS Cloudflare v2/general URLs, unsafe/duplicate rejection, snapshot staleness, v1-only 404, same click/QR URL, lazy accessible disclosure, retry/race');

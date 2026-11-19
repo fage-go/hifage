@@ -1,7 +1,6 @@
 import {readFile,mkdir,writeFile,rename} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {join,dirname} from 'node:path';
-import {safeAsset} from '../public/project-releases.js';
 import {projects} from '../src/data/projects.js';
 
 const downloadOrigin='https://download.hifage.com';
@@ -9,6 +8,13 @@ const catalogOrigin='https://hifage.com';
 const registry=Object.fromEntries(Object.values(projects).filter(p=>p.transfer).map(p=>[p.repo,p.policy??'uploaded']));
 const root=fileURLToPath(new URL('../public/release-catalog/',import.meta.url));
 const repoId=/^[a-z0-9][a-z0-9-]*\/[a-z0-9][a-z0-9_.-]*$/;
+function safeAsset(asset,repo,tag){
+ if(!asset||asset.state!=='uploaded'||typeof asset.name!=='string'||!asset.name.trim()||/[\\/\x00-\x1f\x7f]/.test(asset.name)||!Number.isSafeInteger(asset.size)||asset.size<=0||typeof asset.browser_download_url!=='string')return false;
+ try{
+  const u=new URL(asset.browser_download_url);
+  return u.origin==='https://github.com'&&!u.username&&!u.password&&!u.search&&!u.hash&&decodeURIComponent(u.pathname)===`/${repo}/releases/download/${tag}/${asset.name}`;
+ }catch{return false;}
+}
 const order=(a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt);
 function assetPath(repo,tag,id){return downloadOrigin+'/v2/assets/'+repo+'/'+encodeURIComponent(tag)+'/'+id;}
 function normalize(repo,release,checkedAt,policy){
