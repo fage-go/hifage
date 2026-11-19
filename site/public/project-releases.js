@@ -35,18 +35,43 @@ export async function fetchLatestRelease(repo,policy='uploaded',{fetcher=globalT
   throw new Error('Incomplete release listing');
  }finally{clearTimeout(timer);}
 }
+const downloadOrigin='https://download.hifage.com';
+export async function fetchTransferRelease(project,{fetcher=globalThis.fetch,timeoutMs=8000}={}){
+ if(project!=='magicnotice')throw new Error('Unknown download project');
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
+ try{
+  const endpoint=downloadOrigin+'/v1/projects/'+project+'/latest';
+  const response=await fetcher(endpoint,{signal:controller.signal,credentials:'omit',redirect:'error',cache:'no-store'});
+  if(response.status===404)return null;
+  if(!response.ok)throw new Error('Download service unavailable');
+  const info=await response.json();
+  if(!info||typeof info.name!=='string'||!info.name.trim()||typeof info.tag!=='string'||!/^signed-[A-Za-z0-9._-]+$/.test(info.tag)||typeof info.publishedAt!=='string'||!Number.isFinite(Date.parse(info.publishedAt))||!Array.isArray(info.downloads)||info.downloads.length!==2)throw new Error('Invalid download manifest');
+  const stem='/v1/projects/'+project+'/assets/'+info.tag+'/';
+  const files=new Map();
+  for(const entry of info.downloads){
+   if(typeof entry?.path!=='string'||!entry.path.startsWith(stem))throw new Error('Invalid download path');
+   const match=/^cicada_(zh|en)_release_v([0-9]+)-signed\.apk$/.exec(entry.path.slice(stem.length));
+   if(!match||files.has(match[1]))throw new Error('Invalid download pair');
+   files.set(match[1],{version:match[2],url:downloadOrigin+entry.path});
+  }
+  if(files.get('zh')?.version!==files.get('en')?.version)throw new Error('Invalid download version');
+  return {name:info.name.trim(),tag:info.tag,publishedAt:info.publishedAt,prerelease:info.prerelease===true,downloads:[{label:'下载中文版 APK',url:files.get('zh').url},{label:'下载英文版 APK',url:files.get('en').url}]};
+ }finally{clearTimeout(timer);}
+}
 const widgetRuns=new WeakMap();
 export async function initReleaseWidget(widget,options){
  const run={};widgetRuns.set(widget,run);
  const status=widget.querySelector('[data-release-status]'),result=widget.querySelector('[data-release-result]'),links=widget.querySelector('[data-release-links]');result.hidden=true;links.replaceChildren();
+ const transfer=widget.dataset.transfer,retry=widget.querySelector('[data-release-retry]');
+ if(transfer){status.textContent='正在查询最新版…';if(retry){retry.hidden=true;const button=retry.querySelector('button');if(button)button.onclick=()=>initReleaseWidget(widget,options);}}
  try{
-  const release=await fetchLatestRelease(widget.dataset.repo,widget.dataset.policy,options);
+  const release=await (transfer?fetchTransferRelease(transfer,options):fetchLatestRelease(widget.dataset.repo,widget.dataset.policy,options));
   if(widgetRuns.get(widget)!==run)return;
-  if(!release){status.textContent='暂未找到完整可下载的版本，请查看 Releases。';return;}
+  if(!release){status.textContent=transfer?'暂未找到可下载的版本，请稍后重试。':'暂未找到完整可下载的版本，请查看 Releases。';if(transfer&&retry)retry.hidden=false;return;}
   widget.querySelector('[data-release-name]').textContent=release.name;
   widget.querySelector('[data-release-meta]').textContent=`${release.tag} · ${new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',dateStyle:'medium',timeStyle:'short'}).format(new Date(release.publishedAt))}（北京时间）${release.prerelease?' · 预发布':''}`;
   for(const download of release.downloads){const a=document.createElement('a');a.href=download.url;a.textContent=download.label;links.append(a);}
-  status.textContent='最新可下载版本（刚从 GitHub 查询）';result.hidden=false;
- }catch{if(widgetRuns.get(widget)!==run)return;status.textContent='暂时无法查询最新版本，请打开 Releases 查看下载。';}
+  status.textContent=transfer?'最新可下载版本':'最新可下载版本（刚从 GitHub 查询）';result.hidden=false;
+ }catch{if(widgetRuns.get(widget)!==run)return;status.textContent=transfer?'下载服务暂时不可用，请稍后重试。':'暂时无法查询最新版本，请打开 Releases 查看下载。';if(transfer&&retry)retry.hidden=false;}
 }
 if(typeof document!=='undefined')document.querySelectorAll('[data-release-widget]').forEach(widget=>initReleaseWidget(widget));

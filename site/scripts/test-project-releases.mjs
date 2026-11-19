@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {selectRelease,safeAsset,fetchLatestRelease,initReleaseWidget} from '../public/project-releases.js';
+import {selectRelease,safeAsset,fetchLatestRelease,fetchTransferRelease,initReleaseWidget} from '../public/project-releases.js';
 const repo='fage-go/magicnotice';
 const asset=(lang,tag)=>({name:`cicada_${lang}_release_v1680-signed.apk`,size:100,state:'uploaded',browser_download_url:`https://github.com/${repo}/releases/download/${tag}/cicada_${lang}_release_v1680-signed.apk`});
 const release=(tag,date)=>({tag_name:tag,name:'Official '+tag,published_at:date,draft:false,prerelease:true,assets:[asset('zh',tag),asset('en',tag)]});
@@ -30,3 +30,19 @@ assert.equal(selectRelease([{...fresh,name:{},assets:fresh.assets.map(a=>({...a,
 assert.equal(selectRelease([{...fresh,assets:[fresh.assets[0],{...fresh.assets[1],name:'cicada_en_release_v1681-signed.apk',browser_download_url:fresh.assets[1].browser_download_url.replace('v1680','v1681')}]}],repo,'magicnotice-signed'),null);
 for(const file of fs.readdirSync(new URL('../src/pages/projects/',import.meta.url)))if(file.endsWith('.astro'))assert(fs.readFileSync(new URL('../src/pages/projects/'+file,import.meta.url),'utf8').includes('<ProjectRelease '));
 console.log('PASS malformed fields, same-version signed pairs and all current project pages wired');
+
+const dir='/v1/projects/magicnotice/assets/signed-new/';
+const manifest={name:'Cloud release',tag:'signed-new',publishedAt:'2026-11-19T00:00:00Z',prerelease:true,downloads:['en','zh'].map(lang=>({path:dir+`cicada_${lang}_release_v1680-signed.apk`}))};
+const mirror='https://download.hifage.com';
+const call=info=>({fetcher:async (url,opts)=>{assert.equal(url,mirror+'/v1/projects/magicnotice/latest');assert.equal(opts.redirect,'error');return {ok:true,json:async()=>info}}});
+assert.equal((await fetchTransferRelease('magicnotice',call(manifest))).downloads[0].url,mirror+dir+'cicada_zh_release_v1680-signed.apk');
+for(const invalid of ['https://evil.invalid/file.apk','//evil.invalid/file.apk',dir+'../cicada_en_release_v1680-signed.apk',dir+'cicada_en_release_v1681-signed.apk',dir+'cicada_en_release_v1680-signed.apk?fake=1',dir+'cicada_zh_release_v1680-signed.apk']){
+ await assert.rejects(fetchTransferRelease('magicnotice',call({...manifest,downloads:[{path:invalid},manifest.downloads[1]]})));
+}
+await assert.rejects(fetchTransferRelease('other',call(manifest)));
+assert.equal(await fetchTransferRelease('magicnotice',{fetcher:async()=>({status:404,ok:false})}),null);
+const cfEls={};const cfWidget={dataset:{repo,transfer:'magicnotice'},querySelector:s=>cfEls[s]??=new El()};
+cfWidget.querySelector('[data-release-retry]').querySelector=()=>({onclick:null});
+await initReleaseWidget(cfWidget,call(manifest));assert.equal(cfEls['[data-release-links]'].children.length,2);assert(cfEls['[data-release-links]'].children.every(a=>a.href.startsWith(mirror+'/')));
+await initReleaseWidget(cfWidget,{fetcher:async()=>({status:502,ok:false})});assert(cfEls['[data-release-result]'].hidden);assert.equal(cfEls['[data-release-links]'].children.length,0);assert(!cfEls['[data-release-retry]'].hidden);assert(!cfEls['[data-release-status]'].textContent.includes('GitHub'));
+console.log('PASS download relay same-origin path validation, paired APKs, no GitHub download fallback, retry UI');
