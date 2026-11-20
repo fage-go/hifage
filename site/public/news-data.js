@@ -26,6 +26,42 @@ export const newsDays =
             "url": "https://www.nasdaqtrader.com/Trader.aspx?id=MarketSystemStatus"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "18:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "ChatGPT 手机版开始测试新版底栏",
+            "summary": "新版给 Dot 单独留了入口，Codex、项目和生图也能固定到下面。先向符合条件的 Pro 和少量 Plus 灰度；如果设置里出现「New ChatGPT Design」，可以自己开关。",
+            "source": "OpenAI",
+            "sourceDate": "2026-11-20",
+            "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+          },
+          {
+            "title": "ChatGPT Business Standard 开始开放 Dots",
+            "summary": "美国符合条件的 Business Standard 成员获开放后，可在工作空间创建一个个人 Dot，用来跟进项目或准备周报。仍有使用额度，不是全球全量。",
+            "source": "OpenAI",
+            "sourceDate": "2026-11-20",
+            "url": "https://help.openai.com/en/articles/11391654-chatgpt-business-release-notes"
+          },
+          {
+            "title": "Codex CLI 默认开启终端工作区",
+            "summary": "更新到 0.171.0 后，可以在主对话旁查找文档预览、看图片、读子代理记录，不用来回切窗口。模型列表也加入 GPT‑6.2 Sol 和 Astra。",
+            "source": "OpenAI",
+            "sourceDate": "2026-11-20",
+            "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0"
+          },
+          {
+            "title": "腾讯混元公开 Hy4 正式版权重",
+            "summary": "Hy4 之前已在腾讯产品中上线，这次新增的是可下载的模型权重，包括正式版、FP8 和基础模型；适合想自己部署的人，不是元宝的一次新功能上线。",
+            "source": "腾讯混元",
+            "sourceDate": "2026-11-20",
+            "url": "https://github.com/Tencent-Hunyuan/Hy4"
+          }
+        ]
       }
     ]
   },
