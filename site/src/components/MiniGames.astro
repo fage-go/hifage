@@ -1,0 +1,16 @@
+---
+const base=import.meta.env.BASE_URL;
+---
+<dialog id="mini-game-modal" aria-labelledby="mini-game-title" aria-describedby="mini-game-rule">
+<div class="mini-game-layout"><section class="mini-game-card">
+<button type="button" data-mini-close aria-label="关闭小游戏">×</button>
+<p class="mini-eyebrow">跟发哥玩一局</p><h2 id="mini-game-title"></h2><p id="mini-game-rule"></p>
+<div class="mini-score" id="mini-game-score"></div>
+<div class="mini-arena" aria-hidden="true"><div><small>你</small><span id="mini-player-face">?</span></div><b>VS</b><div><small>发哥</small><span id="mini-fage-face">?</span></div></div>
+<p id="mini-game-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="mini-controls" data-mini-dice><button type="button" data-mini-roll>掷骰子</button></div>
+<div class="mini-controls" data-mini-rps><button type="button" data-mini-choice="0">✊<span>石头</span></button><button type="button" data-mini-choice="1">✌<span>剪刀</span></button><button type="button" data-mini-choice="2">✋<span>布</span></button></div>
+<button type="button" data-mini-replay hidden>再来一局</button><p class="mini-memory">只记这一页，刷新就从零开始。</p>
+</section><img class="mini-fage" data-mini-actor src={base+'assets/fage-welcome.webp'} alt="发哥陪你玩小游戏" width="343" height="650"/></div>
+</dialog>
+<script is:inline type="module" src={base+'mini-games.js'}></script>
