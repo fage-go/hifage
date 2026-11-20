@@ -3,6 +3,47 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-21",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "06:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "Google AI 黑五优惠向部分老用户提前开放",
+            "summary": "Google 的美国订阅页已挂出会员提前购。官方产品负责人称，已有 AI 或存储订阅的用户可在 11 月 26 日前查看指定 AI Plus 和年度 AI Pro 优惠，最高五折；实际价格和续费条件以 Google One 登录后显示为准。",
+            "source": "Google",
+            "sourceDate": "2026-11-21",
+            "url": "https://gemini.google/us/subscriptions/"
+          },
+          {
+            "title": "Antigravity 预告 Neon 缓存更新后会重置额度",
+            "summary": "Varun Mohan 表示，团队在扩大 Neon 的缓存容量，更新推完后会重置额度。截至截稿未确认已经重置，具体覆盖范围也未公布；自己的余额可以在 Antigravity 设置里看。",
+            "source": "Varun Mohan",
+            "sourceDate": "2026-11-21",
+            "url": "https://x.com/_mohansolo/status/2123848516581892181"
+          },
+          {
+            "title": "Watch Duty 用 Gemini 从消防电台里识别火情",
+            "summary": "这家美国野火预警机构把嘈杂的电台对讲转成实时文字，先给值班人员标出疑似火情，再由团队核实并发通知。Google 分享的是这套辅助流程，不是让 AI 自己发布警报。",
+            "source": "Google.org",
+            "sourceDate": "2026-11-21",
+            "url": "https://blog.google/company-news/outreach-and-initiatives/google-org/watch-duty-gemini-tool/"
+          },
+          {
+            "title": "Inkling 2 Mini 开放下载，支持在 Mac 本地运行",
+            "summary": "Thinking Machines Lab 发布了可接收文字和图片的开放权重模型。官方给出的 Mac 运行方式是用 Ollama，建议至少 32 GB 内存；想离线试模型，可以先核对自己的机器配置。",
+            "source": "Thinking Machines Lab",
+            "sourceDate": "2026-11-21",
+            "url": "https://thinkingmachines.ai/news/inkling-2-mini/"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-20",
     "editions": [
       {
