@@ -1,0 +1,54 @@
+---
+const base = import.meta.env.BASE_URL;
+const positions = ['大安','留连','速喜','赤口','小吉','空亡'];
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="发哥的小工具。按北京时间自动显示当下的小六壬民俗推演结果。" />
+  <meta name="theme-color" content="#faf5e9" />
+  <link rel="icon" href={base+'assets/liuren-hand.svg'} type="image/svg+xml" />
+  <link rel="stylesheet" href={base+'xiao-liu-ren.css'} />
+  <title>掐指一算 · 小六壬 · HiFage</title>
+</head>
+<body>
+  <header><a class="brand" href={base}>Hi<b>Fage</b></a><a class="back" href={base+'desk/projects/'}>返回小工具</a></header>
+  <main>
+    <p class="kicker"><img src={base+'assets/liuren-hand.svg'} width="22" height="22" alt="" /> 掐指一算</p>
+    <h1>小六壬</h1>
+    <div class="mode-switch" role="group" aria-label="起课方式" data-liuren-options hidden>
+      <button type="button" data-liuren-mode="time" aria-pressed="true">按时间</button>
+      <button type="button" data-liuren-mode="number" aria-pressed="false">报数起课</button>
+    </div>
+    <p class="context" data-liuren-context>北京时间 · 农历</p>
+    <div class="dial" aria-label="六位结果盘">
+      <svg class="dial-ink" viewBox="0 0 350 350" aria-hidden="true">
+        <circle cx="175" cy="175" r="131" />
+        <circle class="dial-track" cx="175" cy="175" r="115" />
+        <path d="M175 22v17m0 272v17M22 175h17m272 0h17" />
+        <path class="dial-cross" d="m175 47 111 64v128l-111 64-111-64V111Z" />
+      </svg>
+      <ol class="positions" aria-label="推演顺序">
+        {positions.map(label=><li data-liuren-position>{label}</li>)}
+      </ol>
+      <div class="reading">
+        <span>此刻落位</span>
+        <strong data-liuren-result role="status" aria-live="polite" aria-atomic="true">正在推演</strong>
+        <p class="meaning" data-liuren-meaning></p>
+      </div>
+    </div>
+    <section class="number-section" data-liuren-numbers hidden aria-label="任选一个数字">
+      <div class="number-choices" data-liuren-choices>
+        {positions.map(()=><button type="button" data-liuren-number aria-pressed="false"></button>)}
+      </div>
+      <button class="refresh" type="button" data-liuren-refresh>换一组</button>
+      <span class="sr-only" data-liuren-notice role="status" aria-live="polite"></span>
+    </section>
+    <p class="footnote"><span data-liuren-time-note>北京时间自动更新 · </span>民俗参考</p>
+    <noscript><p>请启用 JavaScript，以读取当前北京时间和农历。</p></noscript>
+  </main>
+  <script is:inline type="module" src={base+'xiao-liu-ren.js'}></script>
+</body>
+</html>

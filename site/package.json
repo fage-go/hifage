@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "test:built": "node scripts/verify-built.mjs && node scripts/test-interactions.cjs && node scripts/test-project-releases.mjs && node scripts/test-mini-games.mjs",
+    "test:built": "node scripts/verify-built.mjs && node scripts/test-interactions.cjs && node scripts/test-project-releases.mjs && node scripts/test-mini-games.mjs && node scripts/test-xiao-liu-ren.mjs",
     "prebuild": "node scripts/verify-skill-archives.mjs"
   },
   "dependencies": {
