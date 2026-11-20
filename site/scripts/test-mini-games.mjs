@@ -33,3 +33,6 @@ for(const s of ['data-mini-open="dice"','data-mini-open="rps"','id="mini-game-mo
 console.log('PASS uniform rejection sampling; all 36 dice pairs/9 RPS pairs; first to 2/draw/replay; separate memory; refresh reset; rapid click; interrupted close and stale callback; focus/escape/overflow; reduced motion immediate; root/subpath wiring; no persistence/network');
 
 {const b=boot();b.launch[1].click();b.choices[0].click();b.scheduled[0]();b.choices[0].click();b.nodes['[data-mini-close]'].focus();b.scheduled[1]();assert.equal(b.doc.activeElement,b.nodes['[data-mini-close]']);}
+
+for(const [id,label,asset] of [['dice','比骰子','mini-dice.webp'],['rps','石头剪刀布','mini-rps.webp']]){const button=html.match(new RegExp('<button[^>]*data-mini-open="'+id+'"[^>]*>.*?</button>'))?.[0];assert(button);assert(button.includes('aria-label="'+label+'"'));assert(button.includes('title="'+label+'"'));assert(button.includes(base+'assets/'+asset));assert(!button.replace(/<[^>]+>/g,'').trim());assert(readFileSync(new URL('../dist/assets/'+asset,import.meta.url)).length>0);}
+console.log('PASS raster-only launch controls, accessible names/title, root/subpath assets');
