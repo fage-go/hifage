@@ -1,0 +1,17 @@
+/* HiFage Desk Hand is a web-only subset of LXGW WenKai GB Screen v1.530.
+   Source: https://github.com/lxgw/LxgwWenKai-Screen/releases/tag/v1.530
+   License and copyright: fonts/hi-fage-desk-hand.OFL.txt */
+@font-face {
+  font-family: "HiFage Desk Hand";
+  src: url("./fonts/hi-fage-desk-hand.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+3002,U+55E8,U+53D1,U+54E5,U+6211,U+662F,U+684C,U+7684,U+9762,U+FF0C;
+}
+
+.hero .copy h1 > .headline-visual,
+#desk .desk-heading > h2 {
+  font-family: "HiFage Desk Hand", "Noto Serif CJK SC", "Songti SC", serif;
+  font-weight: 400;
+}
