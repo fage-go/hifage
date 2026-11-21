@@ -3,6 +3,26 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-22",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "06:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "Lean 与 Mathlib 联合验证通过黎曼猜想证明",
+            "summary": "两套工具核对了题目，确认 Alpöge 在 Claude 协助下证明的正是经典黎曼猜想；多套检查器也验证了证明。克雷数学研究所官网仍列为未解，不能把这次验证写成千禧奖认定。",
+            "source": "Lean / Mathlib",
+            "sourceDate": "2026-11-21",
+            "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-21",
     "editions": [
       {
