@@ -40,6 +40,28 @@ export const newsDays =
             "url": "https://thinkingmachines.ai/news/inkling-2-mini/"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "18:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "Claude Code 终端里可以直接画图表",
+            "summary": "v2.1.330 加入内置图表工具 easel。在 macOS 和 Linux 上，Pro、Max 及部分 Team、Enterprise 用户可以让它画图，部分工具的指标结果也会自动出图；不想自动显示可以在 /config 关闭。",
+            "source": "Anthropic",
+            "sourceDate": "2026-11-21",
+            "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.330"
+          },
+          {
+            "title": "黎曼猜想候选证明通过 LUMI 超算独立复编译",
+            "summary": "另一组核查者复编译了 Alpöge 与 Claude 合作提交的 Lean 证明，175,187 个模块全部通过，主定理的编译产物与 MIT 的核查一致。复现增加了一份独立证据，克雷数学研究所仍将黎曼猜想列为未解。",
+            "source": "LUMI 复核记录",
+            "sourceDate": "2026-11-21",
+            "url": "https://github.com/aapolipponen/rh-lean-check-lumi/commit/6b4f49f0770326efb9fd6e2b6f1d37304ce6c529"
+          }
+        ]
       }
     ]
   },
