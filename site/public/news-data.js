@@ -3,6 +3,40 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-23",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "06:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "ChatGPT 桌面团队公布会话加载提速数据",
+            "summary": "OpenAI 工程师分享了桌面团队的测量结果：打开尚未加载的会话快 80%，切换已打开的会话快 30%，应用启动快 10%。Mac 和 Windows 的安装包分别小了 35% 和 25%；这些数字说的是应用体验，不是模型回答速度。",
+            "source": "Jimmy Lai / OpenAI",
+            "sourceDate": "2026-11-23",
+            "url": "https://x.com/feedthejim/status/2124603771951157579"
+          },
+          {
+            "title": "开源小游戏 Worker 755 让玩家给 AI 打工",
+            "summary": "作者在 Show HN 展示了这个浏览器游戏：AI 当主管，玩家反过来扮演它的子代理，在模拟终端里接任务、交结果。想看看人和 AI 换个位置会发生什么，可以从项目页了解玩法。",
+            "source": "Worker 755",
+            "sourceDate": "2026-11-22",
+            "url": "https://github.com/gulivan/worker755"
+          },
+          {
+            "title": "OpenAI 公开模型预训练曲线，提议设行业共同阈值",
+            "summary": "首席科学家 Jakub Pachocki 公布了 OpenAI 用来衡量模型预测下一个词元能力的一组数据，并建议多家开发者一起设定安全阈值。这是研究倡议，不是已生效的行业规则，也没有发布新模型。",
+            "source": "OpenAI",
+            "sourceDate": "2026-11-23",
+            "url": "https://openai.com/index/perplexity-and-intelligence/"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-22",
     "editions": [
       {
