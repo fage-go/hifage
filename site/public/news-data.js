@@ -19,6 +19,28 @@ export const newsDays =
             "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "18:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "OpenRouter 调整 125 个端点的零数据保留资格",
+            "summary": "OpenRouter 公布，已移除 3 家推理服务商，并取消 125 个端点的零数据保留资格，其中部分属预防性调整。平台表示已通知可能受影响的客户；若业务要求不保留请求数据，可重新核对所用端点是否仍符合条件。",
+            "source": "OpenRouter",
+            "sourceDate": "2026-11-22",
+            "url": "https://openrouter.ai/blog/announcements/data-processing-incidents-on-inference-providers/"
+          },
+          {
+            "title": "DeepSeek Harness 测试版加入飞书和腾讯文档连接器",
+            "summary": "新版可在插件页授权飞书、腾讯文档和 Notion 等服务，再回到对话中使用。这是 DeepSeek Harness 工具的 Alpha 测试版，不是 DeepSeek 聊天 App 或模型更新。",
+            "source": "DeepSeek Harness",
+            "sourceDate": "2026-11-22",
+            "url": "https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.3-alpha.1"
+          }
+        ]
       }
     ]
   },
