@@ -44,5 +44,13 @@
       "pixel-character-workflow/references/pixel-spec-and-prompts.md",
       "pixel-character-workflow/references/sources.md"
     ]
+  },
+  {
+    "id": "dot-work-foundation",
+    "bytes": 2013,
+    "sha256": "cdb866fbb01daaac1003fd71b444501754c0bc9405adb4c86c2be9b8e3355e2d",
+    "entries": [
+      "dot-work-foundation/SKILL.md"
+    ]
   }
 ]
