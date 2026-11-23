@@ -3,6 +3,54 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-24",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "06:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "GPT-6.2 Sol 开始进入 ChatGPT 普通聊天",
+            "summary": "不必切到 Work：面向日常对话的 Sol 版本开始向 Plus、Pro、Business 和 Enterprise 分批开放，企业用户受管理员设置影响。可以试着上传一张截图，让它按指定条件提取信息；这次不改 Work 或 Codex 的模型。",
+            "source": "OpenAI",
+            "sourceDate": "2026-11-24",
+            "url": "https://x.com/ChatGPT/status/2124942186425069836"
+          },
+          {
+            "title": "智谱清言和 Z.ai Chat 也能体验 GLM-5.4",
+            "summary": "除了上期提到的 Coding Plan，智谱确认 GLM-5.4 也已上线智谱清言和 Z.ai Chat。想对照新版看图或问答，不必先配置编程工具；聊天入口的免费额度未在这次公告中说明，API 仍待开放。",
+            "source": "智谱 Z.ai",
+            "sourceDate": "2026-11-23",
+            "url": "https://z.ai/blog/glm-5.4"
+          },
+          {
+            "title": "Google 搜索 AI 模式开始支持连接 Wallet",
+            "summary": "入口出现在「搜索个性化 → 已连接的应用」后，可以自行打开或关闭。连接后 AI 模式能读取部分消费信息，但不能转账；接入 Drive 和 Gemini 对话还要等接下来几周。",
+            "source": "Google",
+            "sourceDate": "2026-11-24",
+            "url": "https://blog.google/products-and-platforms/products/search/google-search-personal-intelligence-apps/"
+          },
+          {
+            "title": "Dot 通话结束后可以查看文字记录",
+            "summary": "OpenAI 团队成员 Samir 说，Dot 通话结束后会提供转录，方便回头核对刚才交代了什么。它是通话记录，不代表事项已经办完，结果仍要看任务回执。",
+            "source": "Samir / OpenAI",
+            "sourceDate": "2026-11-23",
+            "url": "https://x.com/_samirism/status/2124862750643896648"
+          },
+          {
+            "title": "新建 ChatGPT Business 工作区可获得临时双倍用量",
+            "summary": "Tibo 表示，11 月 30 日前创建的 Business 工作区，各席位类型的套餐内用量翻倍至 12 月 31 日。已有工作区只收到后续权益的预告，具体规则和截止时区未公布。",
+            "source": "Tibo / OpenAI",
+            "sourceDate": "2026-11-24",
+            "url": "https://x.com/thsottiaux/status/2124922313019953319"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-23",
     "editions": [
       {
