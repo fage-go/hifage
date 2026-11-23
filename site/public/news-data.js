@@ -33,6 +33,21 @@ export const newsDays =
             "url": "https://openai.com/index/perplexity-and-intelligence/"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "18:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "智谱 GLM-5.4 上线 Coding Plan，新增看图能力",
+            "summary": "所有 GLM Coding Plan 订阅者都可以用新版。按周计额度的用户，使用 GLM-5.4 的周额度比 5.3 多 50%；在 Claude Code 中选择 glm-5.4[1m]，其他工具用 glm-5.4。",
+            "source": "智谱 Z.ai",
+            "sourceDate": "2026-11-23",
+            "url": "https://x.com/ZixuanLi_/status/2124719275864670681"
+          }
+        ]
       }
     ]
   },
