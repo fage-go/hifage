@@ -1,0 +1,7 @@
+{
+  "name":"hifage-downloads",
+  "version":"1.0.0",
+  "private":true,
+  "scripts":{"test":"node test-legacy.mjs && node test-v2.mjs && node test-durable.mjs","check:bundle":"wrangler deploy --dry-run --outdir /tmp/hifage-durable-bundle"},
+  "devDependencies":{"wrangler":"4.167.0"}
+}

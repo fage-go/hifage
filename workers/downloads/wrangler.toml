@@ -1,0 +1,17 @@
+name = "hifage-downloads"
+main = "worker.mjs"
+compatibility_date = "2024-11-11"
+# Manage existing custom domain/routes in the Cloudflare Dashboard; no
+# route(s) keys here. keep_vars preserves dashboard environment variables.
+keep_vars = true
+
+[[durable_objects.bindings]]
+name = "RELEASE_SNAPSHOTS"
+class_name = "ReleaseSnapshot"
+
+[[migrations]]
+tag = "release-snapshot-v1"
+new_sqlite_classes = ["ReleaseSnapshot"]
+
+[triggers]
+crons = ["*/15 * * * *"]
