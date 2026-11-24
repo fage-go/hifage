@@ -47,6 +47,42 @@ export const newsDays =
             "url": "https://x.com/thsottiaux/status/2124922313019953319"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "20:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "豆包个人助理「小豆」开启邀请制公测",
+            "summary": "小豆是独立 App，主打记住你交代的事情并主动跟进。现在需要邀请码，受邀可获一定免费额度；豆包称相关能力以后会逐步加入豆包 App。",
+            "source": "豆包官方",
+            "sourceDate": "2026-11-24",
+            "url": "https://sina.cn/news/detail/5368723595591761.html"
+          },
+          {
+            "title": "Gemini 4 Neon 开始向 Google Workspace 用户开放",
+            "summary": "用公司或组织账号登录 Gemini App，可以看看模型选择器有没有 Neon。这次说的是 Gemini App，不是 Gmail 或 Docs 内的 Gemini；具体覆盖哪些 Workspace 版本，团队暂未说明。",
+            "source": "Logan Kilpatrick / Google",
+            "sourceDate": "2026-11-24",
+            "url": "https://x.com/OfficialLoganK/status/2125018427790344654"
+          },
+          {
+            "title": "腾讯开源翻译模型 Hy-MT3，覆盖 102 种语言",
+            "summary": "腾讯混元公开三个大小版本的模型权重，最小的 1.8B 版提供可配合 llama.cpp 使用的文件。想自己部署文档翻译，或试试在翻译中固定术语，可以从小版开始。",
+            "source": "腾讯混元",
+            "sourceDate": "2026-11-24",
+            "url": "https://github.com/Tencent-Hunyuan/Hy-MT3"
+          },
+          {
+            "title": "OpenCode Go 订阅用户可限时试用 HungerG",
+            "summary": "已经订阅 OpenCode Go 的用户，可到模型列表选 HungerG Free 限时试用；免费的是这款模型的调用，不是 Go 订阅。模型出自谁家还没公开。",
+            "source": "OpenCode",
+            "sourceDate": "2026-11-24",
+            "url": "https://opencode.ai/docs/console/go/"
+          }
+        ]
       }
     ]
   },
