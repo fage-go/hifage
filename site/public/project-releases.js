@@ -110,7 +110,7 @@ function fileControl(download, makeQr, isCurrent) {
   a.textContent = download.label;
   const disclosure = document.createElement('details');
   const toggle = document.createElement('summary');
-  toggle.textContent = '扫码下载';
+  toggle.textContent = '扫码';
   toggle.setAttribute('aria-label', '扫码下载：' + download.label);
   const qrStatus = document.createElement('p');
   qrStatus.setAttribute('role', 'status');
@@ -138,7 +138,7 @@ function fileControl(download, makeQr, isCurrent) {
   return item;
 }
 
-const datetime = new Intl.DateTimeFormat('zh-CN', {timeZone: 'Asia/Shanghai', dateStyle: 'medium', timeStyle: 'short'});
+const releaseDate = new Intl.DateTimeFormat('zh-CN', {timeZone: 'Asia/Shanghai', dateStyle: 'medium'});
 export async function initReleaseWidget(widget, options) {
   const run = {};
   requests.set(widget, run);
@@ -149,7 +149,8 @@ export async function initReleaseWidget(widget, options) {
   const retry = widget.querySelector('[data-release-retry]');
   result.hidden = true;
   links.replaceChildren();
-  status.textContent = '正在查询下载版本…';
+  status.removeAttribute('data-release-ready');
+  status.textContent = '正在获取下载…';
   if (retry) {
     retry.hidden = true;
     const button = retry.querySelector('button');
@@ -160,19 +161,19 @@ export async function initReleaseWidget(widget, options) {
     if (!isCurrent()) return;
     if (!release) throw new Error('No downloadable release');
     widget.querySelector('[data-release-name]').textContent = release.name;
-    widget.querySelector('[data-release-meta]').textContent =
-      release.tag + ' · ' + datetime.format(new Date(release.publishedAt)) + '（北京时间）' +
-      (release.prerelease ? ' · 预发布' : '');
+    const date = widget.querySelector('[data-release-meta]');
+    date.textContent = releaseDate.format(new Date(release.publishedAt));
+    date.setAttribute('datetime', new Date(release.publishedAt).toISOString());
     for (const download of release.downloads) {
       links.append(fileControl(download, options?.makeQr ?? makeReleaseQr, isCurrent));
     }
-    status.textContent = '可下载版本';
-    if (retry && release.stale) retry.hidden = false;
     result.hidden = false;
+    status.setAttribute('data-release-ready', '');
+    status.textContent = '下载链接已就绪';
   } catch {
     if (!isCurrent()) return;
     links.replaceChildren();
-    status.textContent = '暂时无法获取下载，请稍后重试。';
+    status.textContent = '暂时无法获取下载。';
     if (retry) retry.hidden = false;
   }
 }

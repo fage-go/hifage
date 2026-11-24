@@ -4,11 +4,10 @@ const base=import.meta.env.BASE_URL;
 ---
 <section class="project-release" data-release-widget data-repo={project.repo} data-transfer={project.transfer} aria-labelledby="release-heading">
  <div class="download-head"><h2 id="release-heading" tabindex="-1">{project.downloadTitle || "下载与更新"}</h2>{project.format && <span class="stamp">{project.format}</span>}</div>
- <p data-release-status role="status" aria-live="polite">正在查询下载版本…</p>
- <div data-release-result hidden><div class="release-record"><h3 data-release-name></h3><p data-release-meta></p></div><div class="release-downloads" data-release-links></div></div>
- <p data-release-retry hidden><button type="button">重试查询</button></p>
+ <p data-release-status role="status" aria-live="polite"></p>
+ <div data-release-result hidden><div class="release-record"><h3 data-release-name></h3><time data-release-meta></time></div><div class="release-downloads" data-release-links></div></div>
+ <p data-release-retry hidden><button type="button">重试</button></p>
  <noscript><p>启用 JavaScript 后即可查看下载链接。</p></noscript>
- <p class="release-help">版本与文件由下载服务自动查询，可能包含预发布版本。</p>
- {project.qr && <figure class="project-qr"><img src={`${base}${project.qr}`} width="112" height="112" alt={`${project.title}项目介绍页二维码`}/><figcaption><strong>在手机上继续</strong><p>扫码打开项目页，再选择适合的语言版本。</p><a href={project.page}>打开项目页</a></figcaption></figure>}
+ {project.qr && <figure class="project-qr"><img src={`${base}${project.qr}`} width="112" height="112" alt={`${project.title}项目介绍页二维码`}/><figcaption>手机扫码打开项目页</figcaption></figure>}
 </section>
 <script is:inline type="module" src={`${base}project-releases.js`}></script>

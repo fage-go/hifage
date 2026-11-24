@@ -70,6 +70,7 @@ class El {
   replaceChildren() {this.children = [];}
   append(...children) {this.children.push(...children);}
   setAttribute(name, value) {this.attrs[name] = value;}
+  removeAttribute(name) {delete this.attrs[name];}
   addEventListener(event, fn) {this.events[event] = fn;}
   querySelector(selector) {return this[selector] ??= new El(selector);}
 }
@@ -78,9 +79,13 @@ const widget = new El('widget');
 widget.dataset = {repo, transfer: 'magicnotice'};
 let qrUrl;
 await initReleaseWidget(widget, {fetcher: async () => ok(manifest()), makeQr: async url => {qrUrl = url; return 'data:image/gif;base64,AA';}});
-assert.equal(widget['[data-release-status]'].textContent, '可下载版本');
+assert.equal(widget['[data-release-status]'].textContent, '下载链接已就绪');
+assert.equal(widget['[data-release-status]'].attrs['data-release-ready'], '');
+assert.equal(widget['[data-release-retry]'].hidden, true);
 assert.equal(widget['[data-release-name]'].textContent, '<Build>');
-assert.match(widget['[data-release-meta]'].textContent, /预发布/);
+assert.equal(widget['[data-release-meta]'].attrs.datetime, '2026-11-19T00:00:00.000Z');
+assert.equal(widget['[data-release-meta]'].textContent, new Intl.DateTimeFormat('zh-CN', {timeZone:'Asia/Shanghai',dateStyle:'medium'}).format(new Date('2026-11-19T00:00:00Z')));
+assert.doesNotMatch(widget['[data-release-meta]'].textContent, /预发布|signed|北京时间|build/);
 const [link, disclosure] = widget['[data-release-links]'].children[0].children;
 assert.equal(link.href, asset(repo, 51).downloadUrl);
 assert.equal(link.textContent, '<file>');
@@ -93,18 +98,26 @@ assert.equal(disclosure.children[2].alt, '<file>的下载二维码');
 const qr = await makeReleaseQr(link.href);
 assert.match(qr, /^data:image\/gif;base64,R0lGOD/);
 await initReleaseWidget(widget, {fetcher: async () => ok({...manifest(), stale: true})});
-assert.equal(widget['[data-release-status]'].textContent, '可下载版本');
-assert.match(widget['[data-release-meta]'].textContent, /预发布/);
-assert.equal(widget['[data-release-retry]'].hidden, false);
+assert.equal(widget['[data-release-status]'].textContent, '下载链接已就绪');
+assert.equal(widget['[data-release-status]'].attrs['data-release-ready'], '');
+assert.equal(widget['[data-release-retry]'].hidden, true);
+assert.equal(widget['[data-release-meta]'].attrs.datetime, '2026-11-19T00:00:00.000Z');
+assert.equal(widget['[data-release-meta]'].textContent, new Intl.DateTimeFormat('zh-CN', {timeZone:'Asia/Shanghai',dateStyle:'medium'}).format(new Date('2026-11-19T00:00:00Z')));
+assert.doesNotMatch(widget['[data-release-meta]'].textContent, /预发布|signed|北京时间|build/);
+assert.equal(widget['[data-release-retry]'].hidden, true);
 let resolveOld;
 const pending = initReleaseWidget(widget, {fetcher: () => new Promise(resolve => resolveOld = resolve)});
+assert.equal(widget['[data-release-status]'].textContent, '正在获取下载…');
+assert.equal(widget['[data-release-status]'].attrs['data-release-ready'], undefined);
+assert.equal(widget['[data-release-retry]'].hidden, true);
 await initReleaseWidget(widget, {fetcher: async () => err(502)});
 resolveOld(ok(manifest()));
 await pending;
 assert.equal(widget['[data-release-result]'].hidden, true);
 assert.equal(widget['[data-release-links]'].children.length, 0);
 assert.equal(widget['[data-release-retry]'].hidden, false);
-assert.doesNotMatch(widget['[data-release-status]'].textContent, /GitHub/);
+assert.equal(widget['[data-release-status]'].textContent, '暂时无法获取下载。');
+assert.equal(widget['[data-release-status]'].attrs['data-release-ready'], undefined);
 const page = readFileSync(new URL('../src/pages/projects/magicnotice.astro', import.meta.url), 'utf8');
 assert(page.includes('<ProjectWorkbench project={projects.magicnotice}/>'));
 const layout=readFileSync(new URL('../src/components/ProjectWorkbench.astro',import.meta.url),'utf8');
@@ -114,6 +127,9 @@ const component=readFileSync(new URL('../src/components/ProjectRelease.astro',im
 for(const hook of ['data-release-status','data-release-result','data-release-links','data-release-retry','id="release-heading"'])assert(component.includes(hook));
 const css=readFileSync(new URL('../public/project-workbench.css',import.meta.url),'utf8');
 assert(css.includes('.download{order:1;'));
+assert(css.includes('[data-release-status][data-release-ready]{position:absolute'));
+assert(css.includes('.release-file summary{position:absolute;top:0;right:0;'));
+assert(!component.includes('release-help'));
 assert(css.includes('.features{order:2}'));
 assert(css.includes('[data-transfer=magicnotice] .release-file:first-child'));
 

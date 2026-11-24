@@ -20,7 +20,7 @@ for(const [name,html]of [['index.html',home],['skills/index.html',skills],['proj
   url=url.split('#')[0];if(!url)continue;assert(existsSync(root+url),name+': missing '+url);
  }
 }
-assert(project.includes('通知了 / MagicNotice'));assert(project.includes('源码公开 · 非商业许可'));assert(project.includes('data-transfer="magicnotice"'));assert(project.includes('id="release-heading"'));assert(!project.includes('https://github.com/fage-go/magicnotice/releases'));assert(!project.includes('.apk'));
+assert(project.includes('通知了 / MagicNotice'));assert(project.includes('非商业许可')&&project.includes('PolyForm Noncommercial 1.0.0')&&!project.includes('源码公开 · 非商业许可'));assert(project.includes('data-transfer="magicnotice"'));assert(project.includes('id="release-heading"'));assert(!project.includes('https://github.com/fage-go/magicnotice/releases'));assert(!project.includes('.apk'));
 for(const id of ['backpack-title','backpack-slots','backpack-actions','backpack-actor','backpack-qr'])assert(home.includes('id="'+id+'"'));
 const finder=readFileSync(root+'finder-data.js','utf8');assert(finder.includes('./projects/magicnotice/#release-heading'));assert(!finder.includes('https://github.com/fage-go/magicnotice/releases'));assert(!finder.includes('releases/latest'));for(const m of finder.matchAll(/(?:icon|qr):'\.\/([^']+)'/g))assert(existsSync(root+m[1]),m[1]);
 for(const item of pixelSkills){const file=skillDownload(item.id,base);assert(skills.includes(file));const page=readFileSync(root+'skills/'+item.id+'/index.html','utf8');assert(page.includes(item.title));assert(page.includes(file));assert(page.includes('SKILL.md'));assert(page.includes('CODEX_HOME'));const bytes=readFileSync(root+'downloads/skills/'+item.id+'.zip');assert.equal(bytes.readUInt32LE(0),0x04034b50);}

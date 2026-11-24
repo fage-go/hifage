@@ -7,10 +7,9 @@ const base=import.meta.env.BASE_URL;
 <a class="skip" href="#project-main">跳到项目内容</a>
 <header><a class="brand" href={base}>Hi<em>Fage</em></a><nav aria-label="面包屑"><a href={base+'#desk'}>发哥的桌面</a><span aria-hidden="true"> / </span><a href={base+'desk/projects/'}>小工具</a><span aria-hidden="true"> / </span><span aria-current="page">{project.name}</span></nav></header>
 <main id="project-main" tabindex="-1">
-<section class="overview" aria-labelledby="project-title"><div class="identity"><img class="app" src={base+project.icon} alt={project.name+'应用图标'} width="94" height="94"/><div><p class="eyebrow">{project.platform} · PROJECT</p><h1 id="project-title">{project.name}</h1><div class="english">{project.subtitle}</div></div></div><p class="lead">{project.purposeLines ? project.purposeLines.map(line=><span>{line}</span>) : project.purpose}</p><p class="intro">{project.description}</p></section>
+<section class="overview" aria-labelledby="project-title"><div class="identity"><img class="app" src={base+project.icon} alt={project.name+'应用图标'} width="94" height="94"/><div><h1 id="project-title">{project.name}</h1><div class="english">{project.subtitle}<span class="platform">{project.platform}</span></div></div></div><p class="lead">{project.purposeLines ? project.purposeLines.map(line=><span>{line}</span>) : project.purpose}</p></section>
 <aside class="download"><ProjectRelease project={project}/></aside>
 <section class="features" aria-label="主要功能">{project.features.map(feature=><article class="feature"><span class="glyph" aria-hidden="true">{feature.symbol}</span><div><h2>{feature.title}</h2><p>{feature.description}</p></div></article>)}</section>
-<div class="meta"><span>{project.license.label}</span><span>{project.license.name}</span></div>
-<section class="license" aria-label="使用许可"><p>{project.license.summary}</p><div><a href={'https://github.com/'+project.repo} target="_blank" rel="noopener noreferrer">查看源码</a><a href={project.license.url} target="_blank" rel="noopener noreferrer">许可与使用范围</a></div></section>
-</main><footer><a href={base}>@HiFage · 发哥做过的东西</a><span>认真折腾，慢慢打磨。</span></footer>
+<nav class="license" aria-label="项目链接"><a href={'https://github.com/'+project.repo} target="_blank" rel="noopener noreferrer">查看源码</a><span aria-hidden="true">·</span><a href={project.license.url} title={project.license.name} target="_blank" rel="noopener noreferrer">{project.license.shortLabel || "使用许可"}</a></nav>
+</main><footer><a href={base}>@HiFage</a></footer>
 </body></html>
