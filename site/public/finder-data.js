@@ -1,4 +1,4 @@
-import {pixelSkills,skillDownload} from './skill-catalog.js';
+import {pixelSkills,skillDownload} from './skill-catalog.js?v=skill-relay-v2';
 // Only real destinations: no fabricated articles, packages, or specific APK versions.
 const wechat = {icon:'./apple-touch-icon.png',title:'发哥聊一聊AI',badge:'微信公众号',qr:'./assets/wechat-qr.jpg',actions:[]};
 export const finderSections = [

@@ -1,7 +1,7 @@
 import {reactions, deskReactions} from './content.js';
 import {initCharacter} from './character.js';
 import {initDesk} from './desk.js';
-import {finderSections} from './finder-data.js';
+import {finderSections} from './finder-data.js?v=skill-relay-v2';
 const base=document.documentElement.dataset.base || '/';
 const localURL=value=>value?.startsWith('./')?base+value.slice(2):value;
 const resolvedReactions=reactions.map(r=>({...r,image:localURL(r.image)}));
