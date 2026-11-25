@@ -40,6 +40,35 @@ export const newsDays =
             "url": "https://openclaw.ai/blog/shellbench"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "20:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "千问 Go 免费开放代打电话",
+            "summary": "在千问 App 里说清打给谁、几点打、要问什么，确认授权后就能代拨，也可以预约时间。适合问餐厅有没有包间、联系酒店找遗失物品；接通后会表明 AI 助手身份，并把沟通结果带回来。",
+            "source": "千问 App 官方公众号",
+            "sourceDate": "2026-11-25",
+            "url": "https://mp.weixin.qq.com/s/jZumD5cprhI7bgmOI7mUEw"
+          },
+          {
+            "title": "OpenClaw 可以把浏览器交还给人操作",
+            "summary": "OpenClaw 2026.11.10 新增浏览器接管：在控制台的 Browser 面板，人可以接手当前页面，不必先停掉智能体。新版还支持预演升级，方便自部署用户检查更新。",
+            "source": "OpenClaw GitHub Releases",
+            "sourceDate": "2026-11-25",
+            "url": "https://github.com/openclaw/openclaw/releases/tag/v2026.11.10"
+          },
+          {
+            "title": "Claude Code 的斜杠菜单可以显示 MCP 技能",
+            "summary": "Claude Code 2.1.332 把服务器提供的技能带进斜杠菜单，名称显示为「服务器:技能」，目前为测试功能。新版也改善了桌面版和 VS Code 在部分会话未保存时的提示。",
+            "source": "Anthropic GitHub Releases",
+            "sourceDate": "2026-11-25",
+            "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.332"
+          }
+        ]
       }
     ]
   },
