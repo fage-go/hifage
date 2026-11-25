@@ -3,6 +3,47 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-25",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "09:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "Claude 做的小工具可以装到电脑桌面了",
+            "summary": "Claude 为 Mac 和 Windows 推出测试功能，符合条件的 Artifacts 可以有独立图标和窗口。适合把常用小工具留在桌面，但打开时仍需联网并登录 Claude Desktop。",
+            "source": "Anthropic",
+            "sourceDate": "2026-11-25",
+            "url": "https://claude.com/resources/articles/install-as-app"
+          },
+          {
+            "title": "ChatGPT 开始向少量 Pro 用户试推 Chat 与 Work 合并",
+            "summary": "Tibo 确认合并体验开始小范围开放。OpenAI 另说明，12 月起 Plus、Pro、Business 将逐步使用共享额度，Instant 快速聊天不扣；本批试用用户是否同步改变计量未说明。",
+            "source": "Tibo / OpenAI",
+            "sourceDate": "2026-11-25",
+            "url": "https://x.com/thsottiaux/status/2125284868414394550"
+          },
+          {
+            "title": "LobeHub 统一智能体、技能与连接器的市场入口",
+            "summary": "开源版 v2.3.6 把 Agents、Skills 和 Connectors 放在同一市场，并为从 GitHub 导入的技能增加更新检查。已经在用 LobeHub 的人，可以少到几个地方找工具。",
+            "source": "LobeHub GitHub Releases",
+            "sourceDate": "2026-11-24",
+            "url": "https://github.com/lobehub/lobehub/releases/tag/v2.3.6"
+          },
+          {
+            "title": "ShellBench 发布：AI 找对答案，还得交出依据",
+            "summary": "OpenClaw 基金会等发布 100 项贴近实际工作的任务测试。一个订餐任务里，很多结果找对了餐厅，却因没标出支撑预算或时间的文件而未过关。",
+            "source": "OpenClaw Foundation",
+            "sourceDate": "2026-11-24",
+            "url": "https://openclaw.ai/blog/shellbench"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-24",
     "editions": [
       {
