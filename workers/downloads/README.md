@@ -1,6 +1,6 @@
 # HiFage 下载服务：共享 Release 快照
 
-`main` 中的这个目录用于发布现有 Cloudflare Worker `hifage-downloads`。只监听 `workers/downloads/*`，让网站和资讯变更不会触发 Worker 构建。无需修改网站。它仍使用 Workers Free：SQLite Durable Object 一仓一个实例，不需要 R2、KV、付费或 GitHub token。APK 本体仍来自原有 GitHub Release，现有包含 tag 与 asset ID 的链接、二维码、Range 不改。
+`main` 中的这个目录用于发布现有 Cloudflare Worker `hifage-downloads`。只监听 `workers/downloads/*`，让网站和资讯变更不会触发 Worker 构建。它仍使用 Workers Free：SQLite Durable Object 一仓一个实例，不需要 R2、KV、付费或 GitHub token。APK 本体仍来自原有 GitHub Release，现有包含 tag 与 asset ID 的链接、二维码、Range 不改。
 
 ## 一次连接
 
@@ -15,6 +15,12 @@
 3. 先确认该目录已经在 GitHub `main` 再切生产分支。保存后查看 **Builds** 是否自动开始这个 `main` 版本；如已开始，不要重复触发。若未自动开始，反馈给维护者确认，再以一次 Worker 目录提交触发。不需要创建或分享 Deploy Hook。遇到付费、覆盖其他 Worker 或删除/转移原域名的提示不要继续。
 
 不用手动新建 Durable Object，也不用单独添加 Cron：`wrangler.toml` 会在同一次部署创建 SQLite 类和绑定、添加 `*/15 * * * *`。不声明 route(s)，由 Dashboard 保留现有域名。部署后仍要在 **Settings → Domains & Routes** 验证域名存在。
+
+## Skill ZIP
+
+- 公开地址为 `https://download.hifage.com/v2/assets/skills/<id>.zip`。仅允许 `skill-archives.mjs` 清单里的 ZIP，沿用 WAF 已放行的 `/v2/assets/`；不改 WAF、站点旧链接或 APK 的接口、绑定和路由。
+- Worker 从固定的 `https://hifage.com/downloads/skills/` 取原始静态文件，不跟随重定向，不透传凭证，验证字节数和 SHA-256 后再以附件传输，支持 HEAD 和单段 Range。错误时不返回或缓存未知文件。
+- 新增技能分三步：先只发布静态 ZIP（不登记、不上架），再加入 Worker 固定清单并验证下载，最后把它登记到网站归档记录和 Skill 盒。`npm test` 验证所有已上架记录和每份真实 ZIP，也允许预热尚未上架的文件。已发布的同名 ZIP 不覆盖；如要更新，先按相同步骤发布新版本文件名，避免两个部署短暂不同步。
 
 ## 怎么验
 

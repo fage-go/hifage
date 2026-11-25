@@ -1,4 +1,5 @@
 import {BOOTSTRAP} from './release-bootstrap.mjs';
+import {skillZipName,transferSkillZip} from './skill-zip.mjs';
 export function rangeBounds(range,size){
  if(!range)return null;const m=/^bytes=(\d{0,16})-(\d{0,16})$/.exec(range);if(!m||(!m[1]&&!m[2]))throw new Error('range');
  const a=m[1]?Number(m[1]):null,b=m[2]?Number(m[2]):null;if((a!==null&&!Number.isSafeInteger(a))||(b!==null&&!Number.isSafeInteger(b)))throw new Error('range');
@@ -28,6 +29,8 @@ export function parseRoute(input,repos=REPOS){
  if(u.username||u.password||u.hash)return null;
  if(u.pathname==='/v2/releases'){if([...u.searchParams.keys()].length!==1||u.searchParams.getAll('repo').length!==1)return null;const repo=normalizeRepo(u.searchParams.get('repo'));return allowed(repo,repos)?{v:2,kind:'latest',repo}:null;}
  if(u.search)return null;
+ const skillZip=skillZipName(u.pathname);
+ if(skillZip)return {v:2,kind:'skill',file:skillZip};
  if(u.pathname===PREFIX+'/latest')return {v:1,kind:'latest',repo:'fage-go/magicnotice'};
  if(u.pathname.startsWith(PREFIX+'/assets/')){const p=u.pathname.slice((PREFIX+'/assets/').length).split('/');if(p.length===2&&/^signed-[A-Za-z0-9_-]{1,80}$/.test(p[0])&&/^cicada_(zh|en)_release_v[0-9]{1,12}-signed\.apk$/.test(p[1]))return{v:1,kind:'asset',repo:'fage-go/magicnotice',tag:p[0],file:p[1]};return null;}
  const p=u.pathname.split('/');if(p.length!==7||p[1]!=='v2'||p[2]!=='assets')return null;
@@ -158,9 +161,10 @@ export function createWorker({fetcher=(...a)=>globalThis.fetch(...a),cache=globa
 
  return {async fetch(request){
   const origin=request.headers.get('Origin');if(origin&&origin!==ORIGIN)return error(403);
-  const route=parseRoute(request.url,repos);if(!route||!allowed(route.repo,repos))return error(404);
+  const route=parseRoute(request.url,repos);if(!route||(route.kind!=='skill'&&!allowed(route.repo,repos)))return error(404);
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...cors,'Access-Control-Max-Age':'600'}});
   if(!['GET','HEAD'].includes(request.method)||route.kind==='latest'&&request.method!=='GET')return error(405);
+  if(route.kind==='skill')return transferSkillZip(request,route.file,{origin:ORIGIN,fetcher,cors,error,rangeBounds});
   try{const data=await metadata(route);if(!data)return error(404);
    if(route.kind==='latest'){const result=route.v===2?data:{name:data.name,tag:data.tag,publishedAt:data.publishedAt,prerelease:data.prerelease,downloads:data.downloads.map(a=>({label:a.label,path:PREFIX+'/assets/'+data.tag+'/'+a.name}))};
     return Response.json(result,{headers:{...cors,'Cache-Control':shelf||data.stale?'no-store':'public, max-age='+Math.max(0,FRESH-Math.floor((now()-Date.parse(data.checkedAt))/1000))}});}
