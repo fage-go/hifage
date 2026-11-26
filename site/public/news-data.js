@@ -33,6 +33,28 @@ export const newsDays =
             "url": "https://github.com/zed-industries/zed/releases/tag/v1.31.0-pre"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "20:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "Codex 补发的重置卡已可使用",
+            "summary": "Tibo 确认，因 GPT‑6.2 用量计费更正补发的重置卡已上线，覆盖符合条件的 Go、Plus、Pro 和 Business 用户。在 Codex 用量设置里手动使用，不会自动清空已用额度；卡覆盖的额度至少有一项剩余低于 80% 时才能用。",
+            "source": "Tibo / OpenAI",
+            "sourceDate": "2026-11-26",
+            "url": "https://x.com/thsottiaux/status/2125853628250599730"
+          },
+          {
+            "title": "Hex 更新：录音和视频文件可以直接转文字",
+            "summary": "开源语音输入工具 Hex 3.5.0 新增音视频文件转写命令，不用先打开应用；长录音会在较安静的位置切段。新版还给会议录音增加了小浮条，可以停止录制或复制转写稿。",
+            "source": "Anomaly GitHub Releases",
+            "sourceDate": "2026-11-26",
+            "url": "https://github.com/anomalyco/hex/releases/tag/v3.5.0"
+          }
+        ]
       }
     ]
   },
