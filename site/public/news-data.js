@@ -3,6 +3,40 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-26",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "09:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "Nothing 展示能录会议的耳机盒",
+            "summary": "Nothing 的新预告展示了 Ear (note)：耳机用来录通话，带麦克风的充电盒用来录现场会议，录音可转写并整理摘要。完整发布定在 12 月 8 日，目前不是开卖公告。",
+            "source": "Nothing 官方 X",
+            "sourceDate": "2026-11-25",
+            "url": "https://x.com/nothing/status/2125590327189021093"
+          },
+          {
+            "title": "Kimi Code 能看见模型收到了什么",
+            "summary": "桌面版 1.5.0 在「设置 → Lab」新增实验性的上下文用量面板，能逐项查看送给模型的内容。当前轮还在运行也可以先排队压缩上下文，完成后会显示 Token 变化；这不是账单。",
+            "source": "MoonshotAI GitHub Releases",
+            "sourceDate": "2026-11-25",
+            "url": "https://github.com/MoonshotAI/kimi-code/releases/tag/kimi-code-desktop%401.5.0"
+          },
+          {
+            "title": "Zed 预览版可以只给当前会话换模型",
+            "summary": "Zed 1.31.0 预览版可以为当前会话单独选模型、配置和思考强度，不改变默认值。Mac 在下拉选择器里用 Command+Enter 或 Command+点击，Windows 和 Linux 用 Ctrl。",
+            "source": "Zed GitHub Releases",
+            "sourceDate": "2026-11-26",
+            "url": "https://github.com/zed-industries/zed/releases/tag/v1.31.0-pre"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-25",
     "editions": [
       {
