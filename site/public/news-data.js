@@ -3,6 +3,33 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-27",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "09:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "真机机器人测试拿第一，成功率仍只有三成",
+            "summary": "Black Forest Labs 今晨展示 FLUX 3 Action 真机操作。Poke & Wiggle 榜单上，它在包含分拣螺丝、开工具箱等任务的组别拿第一，整体成功率约 30%，物件摆到训练范围外时约 16%。这是评测结果与新演示，不是新模型发布。",
+            "source": "Black Forest Labs / Poke & Wiggle",
+            "sourceDate": "2026-11-27",
+            "url": "https://x.com/bfl_ai/status/2126025443157664229"
+          },
+          {
+            "title": "Claude Agent 可以在编辑器对话里管插件了",
+            "summary": "Claude Agent ACP 适配器 v0.113.0 在受支持的编辑器会话里加入 /plugin，可查看、安装或更新插件；变更成功后会尝试在当前会话重新载入。适用于已接入该版适配器的客户端，不是 Claude Code 主程序发布。",
+            "source": "Agent Client Protocol GitHub Releases",
+            "sourceDate": "2026-11-26",
+            "url": "https://github.com/agentclientprotocol/claude-agent-acp/releases/tag/v0.113.0"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-26",
     "editions": [
       {
