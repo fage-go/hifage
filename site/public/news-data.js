@@ -26,6 +26,35 @@ export const newsDays =
             "url": "https://github.com/agentclientprotocol/claude-agent-acp/releases/tag/v0.113.0"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "20:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "豆包工作能用对话调用剪映做粗剪",
+            "summary": "在豆包工作电脑端的「插件」里找到剪映，配合最新版剪映客户端，可用文字要求它删口播冗余或加字幕。初稿出来后还能对话修改，也可打开剪映多轨草稿手调。",
+            "source": "豆包官方公众号",
+            "sourceDate": "2026-11-27",
+            "url": "https://mp.weixin.qq.com/s/R_fdg0CTT2hOYau2O2MsFg"
+          },
+          {
+            "title": "腾讯混元发布 3D 生成模型 Hy3D 3.6",
+            "summary": "腾讯混元发布面向专业 3D 创作的新版，重点是高细节模型和更接近真实材质的贴图。腾讯云 TokenHub 提供 API，支持从文字或参考图生成。",
+            "source": "腾讯混元 / 腾讯云",
+            "sourceDate": "2026-11-27",
+            "url": "https://cloud.tencent.com/document/product/1823/141364"
+          },
+          {
+            "title": "Kimi 开放首期科研支持计划申请",
+            "summary": "面向自然科学、工程及相关交叉学科的研究人员。入选者可获得 Kimi API 额度和团队技术支持，首期申请截至 12 月 8 日；不是给普通聊天用户发额度。",
+            "source": "Kimi / 月之暗面",
+            "sourceDate": "2026-11-27",
+            "url": "https://x.com/Kimi_Moonshot/status/2126154696947871760"
+          }
+        ]
       }
     ]
   },
