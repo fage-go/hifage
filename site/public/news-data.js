@@ -3,6 +3,26 @@ export const newsDays =
 // NEWS_DATA_START
 [
   {
+    "date": "2026-11-28",
+    "editions": [
+      {
+        "id": "am",
+        "title": "发哥早报",
+        "time": "09:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "反重力桌面版可以和 Codex 共用本地 Skill 目录",
+            "summary": "Google Antigravity 桌面版 2.36.0 开始扫描用户目录 ~/.agents/skills，本地 Codex 也会读取这里。同一台电脑上，可以少维护一份 Skill；反重力会优先读取 ~/.gemini 下的同名版本。新版逐步推送，这不等于跨设备同步。",
+            "source": "Google Antigravity 更新日志",
+            "sourceDate": "2026-11-28",
+            "url": "https://antigravity.google/docs/changelog?tab=hub"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-11-27",
     "editions": [
       {
