@@ -19,6 +19,35 @@ export const newsDays =
             "url": "https://antigravity.google/docs/changelog?tab=hub"
           }
         ]
+      },
+      {
+        "id": "pm",
+        "title": "发哥晚报",
+        "time": "20:00",
+        "sample": false,
+        "items": [
+          {
+            "title": "AI 视频分镜加了一个验收办法：别把关键动作切掉",
+            "summary": "Stickman Video Director 更新方块沙盒分镜模板。遇到修轨道这样的关键动作，指引要求在同一镜头里看清修补过程，以及同一辆车的前后轮依次越过接缝。",
+            "source": "Stickman Video Director 版本公告",
+            "sourceDate": "2026-11-28",
+            "url": "https://github.com/kaomei/stickman-video-director/releases/tag/v2026.11.28"
+          },
+          {
+            "title": "OpenReel 剪辑更新：轻声旁白也能在波形上看见",
+            "summary": "开源剪辑工具 OpenReel 更新到 1.2.1。维护者称，录音波形会显示完整片段，包括轻声说话；两种 MP4 导出方式也会保留第一帧画面前的留白。",
+            "source": "OpenReel 1.2.1 版本公告",
+            "sourceDate": "2026-11-28",
+            "url": "https://github.com/Augani/openreel-video/releases/tag/v1.2.1"
+          },
+          {
+            "title": "OpenCode Rune 开发版修复长会话滚动卡顿",
+            "summary": "这款 AI 编程工具的原生桌面开发版更新至 dev-503，修复较长代码分组展开后滚动卡顿的问题。GitHub 提供 macOS、Windows 和 Linux 构建，仍是开发版。",
+            "source": "OpenCode Rune dev-503 版本公告",
+            "sourceDate": "2026-11-28",
+            "url": "https://github.com/anomalyco/opencode-rune/releases/tag/v0.0.0-dev-503"
+          }
+        ]
       }
     ]
   },
